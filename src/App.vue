@@ -1,85 +1,90 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import {
+  House,
+  Film,
+  Filter,
+  Avatar,
+  CirclePlusFilled,
+  TopRight,
+} from '@element-plus/icons-vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="common-layout">
+    <el-container class="w-screen h-screen flex relative">
+      <div
+        class="w-[100px] bg-gray-800 text-[#00bd7e] font-bold text-9xl uppercase flex items-center justify-center"
+      >
+        <h1
+          class="transform -rotate-90 text-center tracking-[0.3em] hover:tracking-tighter transition-all duration-300 ease-in-out"
+        >
+          webflix
+        </h1>
+      </div>
+      <el-aside
+        class="bg-gray-800 text-white p-4 w-1/4 flex flex-col justify-evenly"
+      >
+        <nav class="flex flex-col justify-between space-y-4 text-xl">
+          <RouterLink
+            to="/"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+          >
+            <el-icon class="w-4 h-4 text-[#00bd7e]"><House /></el-icon>
+            Home</RouterLink
+          >
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+          <RouterLink
+            to="/films"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Film /></el-icon
+            >Films</RouterLink
+          >
+          <RouterLink
+            to="/categories"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Filter /></el-icon
+            >Categories</RouterLink
+          >
+          <RouterLink
+            to="/actors"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Avatar /></el-icon
+            >Actors</RouterLink
+          >
+        </nav>
+        <nav class="flex flex-col space-y-4">
+          <RouterLink
+            to="/login"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            ><el-icon class="w-4 h-4 text-[#00bd7e]"><TopRight /></el-icon
+            >Login</RouterLink
+          >
+          <RouterLink
+            to="/register"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            ><el-icon class="w-4 h-4 text-[#00bd7e]"
+              ><CirclePlusFilled /></el-icon
+            >Register</RouterLink
+          >
+          <RouterLink
+            to="/about"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            >About</RouterLink
+          >
+        </nav>
+      </el-aside>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+      <el-main class="bg-gray-100 w-3/4">
+        <RouterView />
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.common-layout {
+  min-height: 100vh;
+  width: 100vw;
 }
 </style>
