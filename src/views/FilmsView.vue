@@ -1,34 +1,47 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getMovies } from '@/services/moviesApi'
+import { getPopularMovies } from '@/services/moviesApi'
 import MovieCard from '@/components/MovieCard.vue'
 
 const movies = ref([])
+const isLoading = ref(true)
+const error = ref(null)
 
 onMounted(async () => {
-  const response = await getMovies()
-  console.log(response)
-  movies.value = response.results
+  try {
+    const response = await getPopularMovies()
+    movies.value = response
+  } catch (err) {
+    error.value = 'Erreur lors de la récupération des films.'
+    console.error(err)
+  } finally {
+    isLoading.value = false
+  }
 })
 </script>
+
 <template>
   <div class="bg-gray-800">
     <h1 class="text-4xl font-bold mb-8 py-8 text-center text-[#00bd7e]">
       Films Populaires
     </h1>
-    <div class="flex flex-wrap justify-center">
+
+    <div v-if="isLoading" class="text-center text-white">
+      Chargement des films...
+    </div>
+    <div v-else-if="error" class="text-center text-red-500">{{ error }}</div>
+    <div v-else class="flex flex-wrap justify-center">
       <MovieCard
         v-for="movie in movies"
         :key="movie.id"
         :title="movie.title"
         :overview="movie.overview"
         :releaseDate="movie.release_date"
-        :rating="movie.vote_average"
+        :vote_average="movie.vote_average"
         :posterPath="movie.poster_path"
       />
     </div>
-    <pre>{{ movies }}</pre>
-    <!-- Pour voir les données dans l'interface -->
   </div>
 </template>
+
 <style></style>

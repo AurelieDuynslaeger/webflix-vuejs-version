@@ -8,6 +8,8 @@ import {
   CirclePlusFilled,
   TopRight,
 } from '@element-plus/icons-vue'
+
+import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
 </script>
 
 <template>
@@ -75,7 +77,9 @@ import {
         </nav>
       </el-aside>
 
-      <el-main class="bg-gray-100 w-3/4">
+      <el-main
+        class="bg-gray-100 w-3/4 h-screen overflow-y-auto scrollbar-custom"
+      >
         <RouterView />
       </el-main>
     </el-container>
