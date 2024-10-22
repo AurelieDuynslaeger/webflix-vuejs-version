@@ -29,18 +29,21 @@ const totalStars = 10
         <div class="font-bold text-2xl mb-2 text-[#00bd7e] uppercase">
           {{ title }}
         </div>
-        <p class="text-gray-700 text-base mb-2 line-clamp-3">{{ overview }}</p>
-        <p class="text-gray-600 text-sm">
+        <p class="text-gray-300 text-base mb-2 line-clamp-3">{{ overview }}</p>
+        <p class="text-gray-500 text-sm">
           <strong>Release Date:</strong> {{ releaseDate }}
         </p>
         <div class="flex mt-2">
-          <span v-for="star in filledStars" :key="star" class="text-[#00bd7e]"
+          <span
+            v-for="star in filledStars"
+            :key="star"
+            class="text-[#00bd7e] text-xl"
             >&#9733;</span
           >
           <span
             v-for="star in totalStars - filledStars"
             :key="star"
-            class="text-gray-500"
+            class="text-gray-300 text-xl"
             >&#9734;</span
           >
         </div>
