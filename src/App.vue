@@ -78,7 +78,7 @@ import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
       </el-aside>
 
       <el-main
-        class="bg-gray-100 w-3/4 h-screen overflow-y-auto scrollbar-custom"
+        class="bg-gray-100 w-3/4 h-screen overflow-auto scrollbar-custom"
       >
         <RouterView />
       </el-main>

@@ -50,6 +50,7 @@ const fetchMoviesByGenre = async genreId => {
       <MovieCard
         v-for="movie in movies"
         :key="movie.id"
+        :id="movie.id"
         :title="movie.title"
         :overview="movie.overview"
         :releaseDate="movie.release_date"
