@@ -6,6 +6,7 @@ import FilmsView from '../views/FilmsView.vue'
 import CategoriesView from '../views/CategoriesView.vue'
 import ActorsView from '../views/ActorsView.vue'
 import AboutView from '@/views/AboutView.vue'
+import DetailMovieView from '@/views/DetailMovieView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,9 +15,14 @@ const router = createRouter({
     { path: '/login', name: 'login', component: LoginView },
     { path: '/register', name: 'register', component: RegisterView },
     { path: '/films', name: 'films', component: FilmsView },
+    {
+      path: '/film/:id',
+      name: 'DetailMovie',
+      component: DetailMovieView,
+    },
     { path: '/categories', name: 'categories', component: CategoriesView },
     { path: '/actors', name: 'actors', component: ActorsView },
-    { path: '/about', name: 'about', component: AboutView }
+    { path: '/about', name: 'about', component: AboutView },
   ]
 })
 

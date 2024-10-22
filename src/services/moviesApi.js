@@ -40,3 +40,11 @@ export const getPopularActors = async (totalPages = 4) => {
     return allActors;
 };
 
+export const fetchMovieDetails = async (id) => {
+    const response = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=fr-FR`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch movie details');
+    }
+    return response.json();
+};
+
