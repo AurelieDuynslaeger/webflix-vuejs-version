@@ -24,6 +24,7 @@ onMounted(fetchActors)
       <ActorCard
         v-for="actor in actors"
         :key="actor.id"
+        :actorId="actor.id"
         :name="actor.name"
         :original-name="actor.original_name"
         :popularity="actor.popularity"

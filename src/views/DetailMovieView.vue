@@ -47,15 +47,15 @@ export default {
 </script>
 <template>
   <div class="bg-gray-800 h-screen flex flex-col justify-center w-3/4 m-auto">
-    <div class="px-4 sm:px-0 text-center flex items-center justify-between">
+    <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2">
         <h3
-          class="text-6xl text-center font-semibold leading-7 text-[#00bd7e] mb-12 uppercase"
+          class="text-4xl font-semibold leading-7 text-[#00bd7e] mb-12 uppercase"
         >
           {{ movie.title }}
         </h3>
         <p
-          class="mt-1 max-w-4xl m-auto text-2xl text-center leading-10 text-gray-300 mb-12"
+          class="mt-1 max-w-4xl m-auto text-2xl leading-10 text-gray-300 mb-12"
         >
           {{ movie.overview }}
         </p>

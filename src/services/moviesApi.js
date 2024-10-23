@@ -58,3 +58,21 @@ export const fetchMovieVideos = async (id) => {
 };
 
 
+export const fetchActorDetail = async (actorId) => {
+    const response = await fetch(`${BASE_URL}/person/${actorId}?api_key=${API_KEY}&language=fr-FR`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch movie videos');
+    }
+    const data = await response.json();
+    return data;
+};
+
+export const fetchActorMoviesCredits = async (actorId) => {
+    const response = await fetch(`${BASE_URL}/person/${actorId}/movie_credits?language=fr-FR&api_key=${API_KEY}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch movie videos');
+    }
+    const data = await response.json();
+    return data.cast;
+};
+

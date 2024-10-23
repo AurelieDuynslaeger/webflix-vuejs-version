@@ -2,6 +2,7 @@
 import { defineProps } from 'vue'
 
 const props = defineProps({
+  actorId: Number,
   name: String,
   profilePath: String,
   knownFor: Array,
@@ -11,8 +12,8 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.profilePath}`
 </script>
 
 <template>
-  <a
-    href="#"
+  <router-link
+    :to="{ name: 'actorDetails', params: { id: Number(actorId) } }"
     class="w-[450px] flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
   >
     <img
@@ -40,7 +41,7 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.profilePath}`
         </div>
       </div>
     </div>
-  </a>
+  </router-link>
 </template>
 
 <style></style>

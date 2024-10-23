@@ -26,7 +26,7 @@ const totalStars = 10
         class="w-full h-48 object-cover filter grayscale"
       />
       <div class="px-6 py-4">
-        <div class="font-bold text-2xl mb-2 text-[#00bd7e] uppercase">
+        <div class="font-bold text-base mb-2 text-[#00bd7e] uppercase">
           {{ title }}
         </div>
         <p class="text-gray-300 text-base mb-2 line-clamp-3">{{ overview }}</p>
