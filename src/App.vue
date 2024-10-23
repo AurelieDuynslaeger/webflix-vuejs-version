@@ -15,18 +15,15 @@ import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
 <template>
   <div class="common-layout">
     <el-container class="w-screen h-screen flex relative">
-      <div
-        class="w-[100px] bg-gray-800 text-[#00bd7e] font-bold text-9xl uppercase flex items-center justify-center"
-      >
-        <h1
-          class="transform -rotate-90 text-center tracking-[0.3em] hover:tracking-tighter transition-all duration-300 ease-in-out"
-        >
-          webflix
-        </h1>
-      </div>
       <el-aside
-        class="bg-gray-800 text-white p-4 w-1/4 flex flex-col justify-evenly"
+        class="bg-gray-800 text-white p-4 w-1/5 flex flex-col justify-evenly"
       >
+        <img
+          src="./assets/webflix_logo.svg"
+          alt="webflix logo"
+          srcset=""
+          class="w-1/2"
+        />
         <nav class="flex flex-col justify-between space-y-4 text-xl">
           <RouterLink
             to="/"
@@ -78,7 +75,7 @@ import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
       </el-aside>
 
       <el-main
-        class="bg-gray-100 w-3/4 h-screen overflow-auto scrollbar-custom"
+        class="bg-gray-800 w-4/5 h-screen overflow-y-auto overflow-x-hidden scrollbar-custom"
       >
         <RouterView />
       </el-main>
