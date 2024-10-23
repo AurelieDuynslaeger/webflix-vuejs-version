@@ -54,9 +54,7 @@ export default {
         >
           {{ movie.title }}
         </h3>
-        <p
-          class="mt-1 max-w-4xl m-auto text-2xl leading-10 text-gray-300 mb-12"
-        >
+        <p class="mt-1 max-w-4xl m-auto text-xl leading-10 text-gray-300 mb-12">
           {{ movie.overview }}
         </p>
       </div>

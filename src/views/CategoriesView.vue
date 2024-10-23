@@ -33,7 +33,7 @@ const fetchMoviesByGenre = async genreId => {
 
     <!-- Liste des genres -->
     <div class="mb-8 text-center">
-      <div class="flex flex-wrap justify-center">
+      <div class="flex flex-wrap justify-center max-w-6xl m-auto">
         <button
           v-for="genre in genres"
           :key="genre.id"
