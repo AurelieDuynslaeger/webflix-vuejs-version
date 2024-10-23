@@ -1,10 +1,15 @@
 <script>
-import { fetchMovieDetails, fetchMovieVideos } from '@/services/moviesApi'
+import {
+  fetchMovieDetails,
+  fetchMovieVideos,
+  fetchMovieSimilar,
+} from '@/services/moviesApi'
 export default {
   data() {
     return {
       movie: {},
       trailers: [],
+      similars: [],
     }
   },
   async created() {
@@ -12,6 +17,7 @@ export default {
     try {
       this.movie = await fetchMovieDetails(movieId)
       this.trailers = await fetchMovieVideos(movieId)
+      this.similars = await fetchMovieSimilar(movieId)
     } catch (error) {
       console.error(error)
     }
@@ -50,11 +56,11 @@ export default {
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2">
         <h3
-          class="text-4xl font-semibold leading-7 text-[#00bd7e] mb-12 uppercase"
+          class="text-4xl font-semibold leading-7 text-[#00bd7e] mb-8 uppercase"
         >
           {{ movie.title }}
         </h3>
-        <p class="mt-1 max-w-4xl m-auto text-xl leading-10 text-gray-300 mb-12">
+        <p class="mt-1 max-w-4xl m-auto text-xl leading-8 text-gray-300 mb-6">
           {{ movie.overview }}
         </p>
       </div>
@@ -65,7 +71,7 @@ export default {
           <div v-if="getTrailer()" class="flex justify-center">
             <iframe
               width="560"
-              height="315"
+              height="280"
               :src="getTrailer()"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -77,81 +83,91 @@ export default {
       </div>
     </div>
     <div class="mt-6 border-t border-[#00bd7e]">
-      <dl class="divide-y divide-[#00bd7e]">
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-[#00bd7e]">
+      <div class="grid grid-cols-3 gap-4">
+        <!-- Colonne 1 -->
+        <div class="col-span-1 p-4">
+          <!-- Date de Sortie -->
+          <dt class="text-base font-medium leading-6 text-[#00bd7e]">
             Date de Sortie
           </dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0"
-          >
+          <dd class="mt-1 text-base leading-6 text-gray-400">
             {{ formatDate(movie.release_date) }}
           </dd>
+
+          <!-- Durée -->
+          <dt class="text-base font-medium leading-6 text-[#00bd7e]">Durée</dt>
+          <dd class="mt-1 text-base leading-6 text-gray-400">
+            {{ formatRuntime(movie.runtime) }}
+          </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-[#00bd7e]">Genres</dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-          >
+
+        <!-- Colonne 2 -->
+        <div class="col-span-1 p-4">
+          <!-- Genres -->
+          <dt class="text-base font-medium leading-6 text-[#00bd7e]">Genres</dt>
+          <dd class="mt-1 text-base leading-6 text-gray-700">
             <span
               v-for="(genre, index) in movie.genres"
               :key="genre.id"
               class="inline-block mr-2"
             >
-              <a href="#" class="text-indigo-600 hover:text-indigo-500">{{
+              <a href="#" class="text-gray-400 hover:text-[#00bd7e]">{{
                 genre.name
               }}</a>
               <span v-if="index < movie.genres.length - 1">, </span>
             </span>
           </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-[#00bd7e]">Durée</dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0"
-          >
-            {{ formatRuntime(movie.runtime) }}
-          </dd>
-        </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-[#00bd7e]">
+
+        <!-- Colonne 3 -->
+        <div class="col-span-1 p-4">
+          <!-- Produit par -->
+          <dt class="text-base font-medium leading-6 text-[#00bd7e]">
             Produit par
           </dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-          >
-            <span
-              v-for="(company, index) in movie.production_companies"
-              :key="company.id"
-              class="inline-block mr-2"
-            >
-              <a href="#" class="text-indigo-600 hover:text-indigo-500">{{
-                company.name
-              }}</a>
-              <span v-if="index < movie.production_companies.length - 1"
-                >,
-              </span>
-            </span>
+          <dd class="mt-1 text-base leading-6 text-gray-700">
+            <ul class="list-disc pl-5">
+              <li
+                v-for="(company, index) in movie.production_companies"
+                :key="company.id"
+                class="text-gray-400 mb-1"
+              >
+                {{ company.name
+                }}<span v-if="index < movie.production_companies.length - 1"
+                  >,</span
+                >
+              </li>
+            </ul>
           </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-[#00bd7e]">Casting</dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+      </div>
+    </div>
+    <div class="px-4 py-6 flex flex-wrap">
+      <h4 class="text-base font-medium leading-6 text-[#00bd7e]">
+        Films similaires
+      </h4>
+      <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <span v-if="similars.length === 0">Aucun film similaire trouvé.</span>
+        <span v-else>
+          <span
+            v-for="similar in similars"
+            :key="similar.id"
+            class="inline-block mr-2"
           >
-            <span
-              v-for="(actor, index) in movie.cast"
-              :key="actor.id"
-              class="inline-block mr-2"
-            >
-              <a href="#" class="text-indigo-600 hover:text-indigo-500">{{
-                actor.name
-              }}</a>
-              <span v-if="index < movie.cast.length - 1">, </span>
-            </span>
-          </dd>
-        </div>
-      </dl>
+            <router-link :to="`/movie/${similar.id}`" class="">
+              <img
+                :src="
+                  similar.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${similar.poster_path}`
+                    : 'path/to/default_image.jpg'
+                "
+                :alt="similar.original_title"
+                class="rounded-lg mb-4 w-24 h-24 object-cover"
+              />
+            </router-link>
+          </span>
+        </span>
+      </div>
     </div>
   </div>
 </template>

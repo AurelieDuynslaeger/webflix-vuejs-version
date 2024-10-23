@@ -48,6 +48,15 @@ export const fetchMovieDetails = async (id) => {
     return response.json();
 };
 
+export const fetchMovieSimilar = async (id) => {
+    const response = await fetch(`${BASE_URL}/movie/${id}/similar?api_key=${API_KEY}&language=fr-FR&page=1`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch movie details');
+    }
+    const data = await response.json();
+    return data.results;
+};
+
 export const fetchMovieVideos = async (id) => {
     const response = await fetch(`${BASE_URL}/movie/${id}/videos?api_key=${API_KEY}&language=fr-FR`);
     if (!response.ok) {
