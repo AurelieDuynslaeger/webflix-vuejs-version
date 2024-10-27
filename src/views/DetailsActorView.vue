@@ -65,7 +65,11 @@ onMounted(async () => {
       </div>
       <h2 class="text-4xl font-bold m-16">Connu pour :</h2>
       <div class="grid grid-cols-6 gap-2">
-        <div v-for="movie in movies" :key="movie.id" class="movie-card">
+        <div
+          v-for="movie in movies"
+          :key="movie.id"
+          class="transition-transform duration-200 hover:scale-105"
+        >
           <router-link :to="{ name: 'DetailMovie', params: { id: movie.id } }">
             <img
               v-if="movie.poster_path"

@@ -163,7 +163,7 @@ export default {
           <span
             v-for="similar in similars"
             :key="similar.id"
-            class="inline-block mr-2"
+            class="inline-block mr-2 transition-transform duration-200 hover:scale-105"
           >
             <router-link :to="`/film/${similar.id}`" class="">
               <img

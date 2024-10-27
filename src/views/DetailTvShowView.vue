@@ -44,19 +44,20 @@ export default {
       class="relative bg-cover bg-center h-96 flex items-center justify-center text-center"
       :style="{
         backgroundImage: `url(${getImageUrl(tvShow.backdrop_path)})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundSize: 'contain',
+        backgroundPosition: 'top',
+        backgroundRepeat: 'no-repeat',
       }"
-    >
-      <div class="bg-opacity-50 w-full h-full flex items-center justify-center">
-        <h1 class="text-4xl md:text-9xl font-bold text-[#00bd7e]">
-          {{ tvShow.name }}
-        </h1>
-      </div>
-    </section>
+    ></section>
 
     <!-- Informations Clés -->
-    <section class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
+    <section class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto">
+      <h1
+        class="text-4xl md:text-7xl font-bold text-[#00bd7e] uppercase mb-12 text-center"
+      >
+        {{ tvShow.name }}
+      </h1>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h2 class="text-2xl font-semibold mb-2 text-[#00bd7e]">
@@ -87,6 +88,11 @@ export default {
           <p class="uppercase">
             <strong>Langue Originale:</strong> {{ tvShow.original_language }}
           </p>
+          <a
+            href="{{ tvShow.homepage }}"
+            class="inline-block bg-[#00bd7e] hover:bg-white text-white hover:text-[#00bd7e] px-4 py-2 rounded m-4"
+            >Site Officiel</a
+          >
         </div>
         <div>
           <h2 class="text-2xl font-semibold mb-2 text-[#00bd7e]">Résumé</h2>
@@ -97,7 +103,7 @@ export default {
 
     <!-- Épisodes Récents et À Venir -->
     <section
-      class="px-6 md:px-12 py-8 md:py-12 bg-gray-800 max-w-screen-xl mx-auto"
+      class="px-6 md:px-12 py-8 md:py-8 bg-gray-800 max-w-screen-xl mx-auto"
     >
       <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">Épisodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -113,74 +119,30 @@ export default {
           <p>
             <strong>Date:</strong> {{ tvShow.last_episode_to_air.air_date }}
           </p>
-          ²
           <p>
             <strong>Note:</strong>
             {{ tvShow.last_episode_to_air.vote_average }} / 10
           </p>
         </div>
-        <div>
-          <h3 class="text-xl font-semibold">Prochain Épisode</h3>
-          <p><strong>Titre:</strong> {{ tvShow.next_episode_to_air.name }}</p>
-          <p>
-            <strong>Numéro:</strong> S{{
-              tvShow.next_episode_to_air.season_number
-            }}
-            E{{ tvShow.next_episode_to_air.episode_number }}
-          </p>
-          <p>
-            <strong>Date:</strong> {{ tvShow.next_episode_to_air.air_date }}
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Liens Officiels -->
-    <section class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
-        Liens Officiels
-      </h2>
-      <a
-        href="{{ tvShow.homepage }}"
-        class="inline-block bg-[#00bd7e] hover:bg-white text-white hover:text-[#00bd7e] px-4 py-2 rounded"
-        >Site Officiel</a
-      >
-    </section>
-
-    <!-- Réseaux de Diffusion et Compagnies de Production -->
-    <section
-      class="px-6 md:px-12 py-8 md:py-12 bg-gray-800 max-w-screen-xl mx-auto"
-    >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
-            Réseaux de Diffusion
-          </h2>
-          <div class="flex space-x-4">
-            <template v-for="network in tvShow.networks" :key="network.id">
-              <img
-                :src="getImageUrl(network.logo_path)"
-                :alt="network.name"
-                class="h-6 grayscale"
-              />
-            </template>
-          </div>
-        </div>
-        <div>
-          <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
-            Compagnies de Production
-          </h2>
-          <div class="flex space-x-4">
-            <template
-              v-for="company in tvShow.production_companies"
-              :key="company.id"
-            >
-              <img
-                :src="getImageUrl(company.logo_path)"
-                :alt="company.name"
-                class="h-6 grayscale"
-              />
-            </template>
+        <!-- Réseaux de Diffusion et Compagnies de Production -->
+        <div
+          class="px-6 md:px-12 py-8 md:py-12 bg-gray-800 max-w-screen-xl mx-auto"
+        >
+          <div class="flex">
+            <div>
+              <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+                Réseaux de Diffusion
+              </h2>
+              <div class="flex space-x-4">
+                <template v-for="network in tvShow.networks" :key="network.id">
+                  <img
+                    :src="getImageUrl(network.logo_path)"
+                    :alt="network.name"
+                    class="h-6 grayscale"
+                  />
+                </template>
+              </div>
+            </div>
           </div>
         </div>
       </div>
