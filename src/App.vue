@@ -7,6 +7,7 @@ import {
   Avatar,
   CirclePlusFilled,
   TopRight,
+  Monitor,
 } from '@element-plus/icons-vue'
 
 import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
@@ -38,6 +39,12 @@ import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
             class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
             ><el-icon class="w-4 h-4 text-[#00bd7e]"><Film /></el-icon
             >Films</RouterLink
+          >
+          <RouterLink
+            to="/series"
+            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Monitor /></el-icon
+            >Séries</RouterLink
           >
           <RouterLink
             to="/categories"

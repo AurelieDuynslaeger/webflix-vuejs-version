@@ -1,16 +1,24 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-
 export const getPopularMovies = async (totalPages = 4) => {
     const allMovies = [];
     for (let page = 1; page <= totalPages; page++) {
         const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=fr-FR&page=${page}`);
         const data = await response.json();
-        allMovies.push(...data.results);
+
+        // Filtrer les films pour inclure uniquement ceux dont l'origine est US ou FR, avec un 'overview' non vide et qui ne sont pas pour adultes
+        const filteredMovies = data.results.filter(movie =>
+            (movie.origin_country?.includes("US") || movie.origin_country?.includes("FR")) &&
+            movie.overview && movie.overview.trim() !== "" &&
+            !movie.adult
+        );
+
+        allMovies.push(...filteredMovies);
     }
     return allMovies;
 };
+
 
 
 export const getMoviesByGenre = async (genreId, totalPages = 4) => {
@@ -84,4 +92,23 @@ export const fetchActorMoviesCredits = async (actorId) => {
     const data = await response.json();
     return data.cast;
 };
+
+
+export const getPopularTvShows = async (totalPages = 4) => {
+    const allTvShows = [];
+    for (let page = 1; page <= totalPages; page++) {
+        const response = await fetch(`${BASE_URL}/tv/popular?api_key=${API_KEY}&language=fr-FR&page=${page}`);
+        const data = await response.json();
+
+        // Filtrer les séries pour inclure uniquement celles dont l'origine est US ou FR et avec un 'overview' non vide
+        const filteredTvShows = data.results.filter(tvShow =>
+            (tvShow.origin_country.includes("US") || tvShow.origin_country.includes("FR")) &&
+            tvShow.overview && tvShow.overview.trim() !== ""
+        );
+
+        allTvShows.push(...filteredTvShows);
+    }
+    return allTvShows;
+};
+
 

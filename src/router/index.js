@@ -8,6 +8,8 @@ import ActorsView from '../views/ActorsView.vue'
 import AboutView from '@/views/AboutView.vue'
 import DetailMovieView from '@/views/DetailMovieView.vue'
 import DetailsActorView from '@/views/DetailsActorView.vue'
+import TvShowsView from '@/views/TvShowsView.vue'
+import DetailTvShowView from '@/views/DetailTvShowView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,12 @@ const router = createRouter({
       path: '/film/:id',
       name: 'DetailMovie',
       component: DetailMovieView,
+    },
+    { path: '/series', name: 'series', component: TvShowsView },
+    {
+      path: '/serie/:id',
+      name: 'DetailTvShow',
+      component: DetailTvShowView,
     },
     { path: '/categories', name: 'categories', component: CategoriesView },
     { path: '/actors', name: 'actors', component: ActorsView },
