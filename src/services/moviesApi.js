@@ -9,7 +9,7 @@ export const getPopularMovies = async (totalPages = 4) => {
 
         // Filtrer les films pour inclure uniquement ceux dont l'origine est US ou FR, avec un 'overview' non vide et qui ne sont pas pour adultes
         const filteredMovies = data.results.filter(movie =>
-            (movie.origin_country?.includes("US") || movie.origin_country?.includes("FR")) &&
+            (movie.original_language === "en" || movie.original_language === "fr") &&
             movie.overview && movie.overview.trim() !== "" &&
             !movie.adult
         );
@@ -109,6 +109,15 @@ export const getPopularTvShows = async (totalPages = 4) => {
         allTvShows.push(...filteredTvShows);
     }
     return allTvShows;
+};
+
+
+export const fetchTvShowDetails = async (id) => {
+    const response = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=fr-FR`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch tv show details');
+    }
+    return response.json();
 };
 
 

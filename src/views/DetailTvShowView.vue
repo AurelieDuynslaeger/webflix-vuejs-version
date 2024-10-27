@@ -1,26 +1,17 @@
 <script>
-import {
-  fetchMovieDetails,
-  fetchMovieVideos,
-  fetchMovieSimilar,
-} from '@/services/moviesApi'
+import { fetchTvShowDetails } from '@/services/moviesApi'
 export default {
   data() {
     return {
-      movie: {},
-      trailers: [],
-      similars: [],
+      tvShow: {},
       isLoading: true,
       error: null,
     }
   },
   async created() {
-    const movieId = this.$route.params.id
+    const tvShowId = this.$route.params.id
     try {
-      this.movie = await fetchMovieDetails(movieId)
-      this.trailers = await fetchMovieVideos(movieId)
-      this.similars = await fetchMovieSimilar(movieId)
-      console.log(this.movie, this.trailers, this.similars) // Debugging
+      this.tvShow = await fetchTvShowDetails(tvShowId)
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
       console.error(error)
@@ -41,145 +32,191 @@ export default {
         year: 'numeric',
       })
     },
-    // Fonction pour formater la durée en heures et minutes
-    formatRuntime(runtime) {
-      const hours = Math.floor(runtime / 60)
-      const minutes = runtime % 60
-      return `${hours}h${minutes}min`
-    },
-    // Nouvelle méthode pour obtenir l'URL de la bande-annonce
-    getTrailer() {
-      const trailer = this.trailers.find(
-        trailer => trailer.type === 'Trailer' && trailer.site === 'YouTube',
-      )
-      return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null
-    },
   },
 }
 </script>
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div
-    v-else
-    class="bg-gray-800 h-screen flex flex-col justify-center w-3/4 m-auto"
-  >
-    <div class="px-4 sm:px-0 text-left flex items-center justify-between">
-      <div class="w-1/2">
-        <h3
-          class="text-4xl font-semibold leading-7 text-[#00bd7e] mb-8 uppercase"
-        >
-          {{ movie.title }}
-        </h3>
-        <p class="mt-1 max-w-4xl m-auto text-xl leading-8 text-gray-300 mb-6">
-          {{ movie.overview }}
-        </p>
+  <div v-else class="w-4/5 m-auto text-white bg-gray-800">
+    <!-- Bannière Principale -->
+    <section
+      class="relative bg-cover bg-center h-96 flex items-center justify-center text-center"
+      :style="{
+        backgroundImage: `url(${getImageUrl(tvShow.backdrop_path)})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }"
+    >
+      <div class="bg-opacity-50 w-full h-full flex items-center justify-center">
+        <h1 class="text-4xl md:text-9xl font-bold text-[#00bd7e]">
+          {{ tvShow.name }}
+        </h1>
       </div>
+    </section>
 
-      <!-- video trailer -->
-      <div class="px-4 py-6 w-1/2">
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-          <div v-if="getTrailer()" class="flex justify-center">
-            <iframe
-              width="560"
-              height="280"
-              :src="getTrailer()"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <span v-else>Aucune bande-annonce disponible.</span>
-        </dd>
-      </div>
-    </div>
-    <div class="mt-6 border-t border-[#00bd7e]">
-      <div class="grid grid-cols-3 gap-4">
-        <!-- Colonne 1 -->
-        <div class="col-span-1 p-4">
-          <!-- Date de Sortie -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">
-            Date de Sortie
-          </dt>
-          <dd class="mt-1 text-base leading-6 text-gray-400">
-            {{ formatDate(movie.release_date) }}
-          </dd>
-
-          <!-- Durée -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">Durée</dt>
-          <dd class="mt-1 text-base leading-6 text-gray-400">
-            {{ formatRuntime(movie.runtime) }}
-          </dd>
+    <!-- Informations Clés -->
+    <section class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="text-2xl font-semibold mb-2 text-[#00bd7e]">
+            Informations Clés
+          </h2>
+          <p>
+            <strong>Créateur(s):</strong>
+            {{ tvShow.created_by.map(creator => creator.name).join(', ') }}
+          </p>
+          <p>
+            <strong>Créateur(s):</strong>
+            {{ tvShow.genres.map(genre => genre.name).join(', ') }}
+          </p>
+          <p>
+            <strong>Durée Moyenne:</strong>
+            {{ tvShow.episode_run_time[0] }} minutes
+          </p>
+          <p>
+            <strong>Statut:</strong>
+            {{ tvShow.in_production ? 'En production' : 'Terminée' }}
+          </p>
+          <p>
+            <strong>Nombre de Saisons:</strong> {{ tvShow.number_of_seasons }}
+          </p>
+          <p>
+            <strong>Nombre d'Épisodes:</strong> {{ tvShow.number_of_episodes }}
+          </p>
+          <p class="uppercase">
+            <strong>Langue Originale:</strong> {{ tvShow.original_language }}
+          </p>
         </div>
-
-        <!-- Colonne 2 -->
-        <div class="col-span-1 p-4">
-          <!-- Genres -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">Genres</dt>
-          <dd class="mt-1 text-base leading-6 text-gray-700">
-            <span
-              v-for="(genre, index) in movie.genres"
-              :key="genre.id"
-              class="inline-block mr-2"
-            >
-              <a href="#" class="text-gray-400 hover:text-[#00bd7e]">{{
-                genre.name
-              }}</a>
-              <span v-if="index < movie.genres.length - 1">, </span>
-            </span>
-          </dd>
-        </div>
-
-        <!-- Colonne 3 -->
-        <div class="col-span-1 p-4">
-          <!-- Produit par -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">
-            Produit par
-          </dt>
-          <dd class="mt-1 text-base leading-6 text-gray-700">
-            <ul class="list-disc pl-5">
-              <li
-                v-for="(company, index) in movie.production_companies"
-                :key="company.id"
-                class="text-gray-400 mb-1"
-              >
-                {{ company.name
-                }}<span v-if="index < movie.production_companies.length - 1"
-                  >,</span
-                >
-              </li>
-            </ul>
-          </dd>
+        <div>
+          <h2 class="text-2xl font-semibold mb-2 text-[#00bd7e]">Résumé</h2>
+          <p class="text-gray-300">{{ tvShow.overview }}</p>
         </div>
       </div>
-    </div>
-    <div class="px-4 py-6 flex flex-wrap">
-      <h4 class="text-base font-medium leading-6 text-[#00bd7e]">
-        Films similaires
-      </h4>
-      <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <span v-if="similars.length === 0">Aucun film similaire trouvé.</span>
-        <span v-else>
-          <span
-            v-for="similar in similars"
-            :key="similar.id"
-            class="inline-block mr-2"
-          >
-            <router-link :to="`/film/${similar.id}`" class="">
+    </section>
+
+    <!-- Épisodes Récents et À Venir -->
+    <section
+      class="px-6 md:px-12 py-8 md:py-12 bg-gray-800 max-w-screen-xl mx-auto"
+    >
+      <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">Épisodes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold">Dernier Épisode Diffusé</h3>
+          <p><strong>Titre:</strong> {{ tvShow.last_episode_to_air.name }}</p>
+          <p>
+            <strong>Numéro:</strong> S{{
+              tvShow.last_episode_to_air.season_number
+            }}
+            E{{ tvShow.last_episode_to_air.episode_number }}
+          </p>
+          <p>
+            <strong>Date:</strong> {{ tvShow.last_episode_to_air.air_date }}
+          </p>
+          ²
+          <p>
+            <strong>Note:</strong>
+            {{ tvShow.last_episode_to_air.vote_average }} / 10
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold">Prochain Épisode</h3>
+          <p><strong>Titre:</strong> {{ tvShow.next_episode_to_air.name }}</p>
+          <p>
+            <strong>Numéro:</strong> S{{
+              tvShow.next_episode_to_air.season_number
+            }}
+            E{{ tvShow.next_episode_to_air.episode_number }}
+          </p>
+          <p>
+            <strong>Date:</strong> {{ tvShow.next_episode_to_air.air_date }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Liens Officiels -->
+    <section class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
+      <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+        Liens Officiels
+      </h2>
+      <a
+        href="{{ tvShow.homepage }}"
+        class="inline-block bg-[#00bd7e] hover:bg-white text-white hover:text-[#00bd7e] px-4 py-2 rounded"
+        >Site Officiel</a
+      >
+    </section>
+
+    <!-- Réseaux de Diffusion et Compagnies de Production -->
+    <section
+      class="px-6 md:px-12 py-8 md:py-12 bg-gray-800 max-w-screen-xl mx-auto"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+            Réseaux de Diffusion
+          </h2>
+          <div class="flex space-x-4">
+            <template v-for="network in tvShow.networks" :key="network.id">
               <img
-                :src="
-                  similar.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${similar.poster_path}`
-                    : 'path/to/default_image.jpg'
-                "
-                :alt="similar.original_title"
-                class="rounded-lg mb-4 w-24 h-24 object-cover"
+                :src="getImageUrl(network.logo_path)"
+                :alt="network.name"
+                class="h-6 grayscale"
               />
-            </router-link>
-          </span>
-        </span>
+            </template>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+            Compagnies de Production
+          </h2>
+          <div class="flex space-x-4">
+            <template
+              v-for="company in tvShow.production_companies"
+              :key="company.id"
+            >
+              <img
+                :src="getImageUrl(company.logo_path)"
+                :alt="company.name"
+                class="h-6 grayscale"
+              />
+            </template>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Saisons Disponibles -->
+    <section class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
+      <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+        Saisons Disponibles
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <template v-for="season in tvShow.seasons" :key="season.id">
+          <div class="bg-gray-800 rounded-lg p-4 text-center">
+            <img
+              :src="getImageUrl(season.poster_path)"
+              :alt="'Saison ' + season.season_number"
+              class="h-40 mx-auto mb-4"
+            />
+            <h3 class="text-lg font-semibold">
+              Saison {{ season.season_number }}
+            </h3>
+            <p>Première Diffusion: {{ season.air_date }}</p>
+            <p>Épisodes: {{ season.episode_count }}</p>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- Évaluation des Spectateurs -->
+    <section
+      class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto text-center"
+    >
+      <h2 class="text-2xl font-semibold mb-4">Évaluation des Spectateurs</h2>
+      <p class="text-4xl font-bold">{{ tvShow.vote_average }}</p>
+      <p class="text-gray-400">Basé sur {{ tvShow.vote_count }} votes</p>
+    </section>
   </div>
 </template>
 
