@@ -22,7 +22,9 @@ onMounted(async () => {
 
 <template>
   <div class="bg-background">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
+    <h1
+      class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Abril"
+    >
       Films Populaires
     </h1>
 

@@ -45,17 +45,21 @@ onMounted(async () => {
         :alt="actor.name"
         class="rounded-lg mb-4 w-64 h-96 object-cover"
       />
-      <h1 class="text-4xl font-bold mb-2">{{ actor.name }}</h1>
-      <p v-if="actor.place_of_birth" class="text-sm text-gray-400">
+      <h1 class="text-5xl mb-2 font-Abril">{{ actor.name }}</h1>
+      <p v-if="actor.place_of_birth" class="text-sm text-gray-400 font-Work">
         {{ actor.place_of_birth }}
       </p>
-      <p v-else class="text-sm text-gray-400">Lieu de naissance inconnu</p>
-      <p class="text-md mb-4">Né le: {{ formatDate(actor.birthday) }}</p>
+      <p v-else class="text-sm text-gray-400 font-Work">
+        Lieu de naissance inconnu
+      </p>
+      <p class="text-md mb-4 font-Work">
+        Né le: {{ formatDate(actor.birthday) }}
+      </p>
 
       <div class="mt-4">
         <p
           v-if="actor.biography"
-          class="text-left max-w-6xl leading-10 text-xl"
+          class="text-left max-w-6xl leading-10 text-xl font-Work"
         >
           {{ actor.biography }}
         </p>
@@ -63,7 +67,7 @@ onMounted(async () => {
           Biographie indisponible pour cet acteur.
         </p>
       </div>
-      <h2 class="text-4xl font-bold m-16">Connu pour :</h2>
+      <h2 class="text-5xl m-16 font-Abril">Connu(e) aussi pour :</h2>
       <div class="grid grid-cols-6 gap-2">
         <div
           v-for="movie in movies"

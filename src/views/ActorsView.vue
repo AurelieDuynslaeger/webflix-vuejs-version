@@ -16,7 +16,9 @@ onMounted(fetchActors)
 
 <template>
   <div class="">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
+    <h1
+      class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Abril"
+    >
       Les Actrices/Acteurs les plus populaires 🔥
     </h1>
 

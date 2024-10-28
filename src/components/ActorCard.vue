@@ -24,12 +24,14 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.profilePath}`
 
     <div class="flex flex-col justify-between p-4 leading-normal">
       <h5
-        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-2xl tracking-tight text-gray-900 dark:text-white font-Abril"
       >
         {{ props.name }}
       </h5>
       <div class="mt-3">
-        <h6 class="text-xl font-bold dark:text-white">Connu(e) pour :</h6>
+        <h6 class="text-xl font-bold dark:text-white font-Work">
+          Connu(e) pour :
+        </h6>
         <div class="flex space-x-2 mt-2">
           <img
             v-for="movie in props.knownFor"

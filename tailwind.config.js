@@ -52,10 +52,8 @@ const config = {
 				}
 			},
 			fontFamily: {
-				mango: ['MangoGrotesque', 'sans-serif'], // Remplacez 'sans-serif' par une autre police de secours si nécessaire
-				mangoBlack: ['MangoGrotesqueBlack', 'sans-serif'],
-				mangoExtLt: ['MangoGrotesqueExtLt', 'sans-serif'],
-				metrisch: ['Metrisch', 'sans-serif'],
+				Abril: ['Abril Fatface', 'cursive'],
+				Work: ['Work Sans', 'sans-serif'],
 			}
 		}
 	},

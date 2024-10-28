@@ -63,10 +63,14 @@ export default {
   <div v-else class="h-full flex flex-col justify-center w-3/4 m-auto">
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2">
-        <h3 class="text-3xl font-bold leading-7 text-primary mb-8 uppercase">
+        <h3
+          class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Abril"
+        >
           {{ movie.title }}
         </h3>
-        <p class="mt-1 max-w-4xl m-auto text-sm leading-8 text-gray-300 mb-6">
+        <p
+          class="mt-1 max-w-4xl m-auto text-sm leading-8 text-gray-300 mb-6 font-Work"
+        >
           {{ movie.overview }}
         </p>
       </div>
@@ -93,16 +97,18 @@ export default {
         <!-- Colonne 1 -->
         <div class="col-span-1 p-4">
           <!-- Date de Sortie -->
-          <dt class="text-base font-medium leading-6 text-primary">
+          <dt class="text-base font-medium leading-6 text-primary font-Abril">
             Date de Sortie
           </dt>
-          <dd class="mt-1 text-base leading-6 text-gray-400">
+          <dd class="mt-1 text-base leading-6 text-gray-400 font-Work">
             {{ formatDate(movie.release_date) }}
           </dd>
 
           <!-- Durée -->
-          <dt class="text-base font-medium leading-6 text-primary">Durée</dt>
-          <dd class="mt-1 text-base leading-6 text-gray-400">
+          <dt class="text-base font-medium leading-6 text-primary font-Abril">
+            Durée
+          </dt>
+          <dd class="mt-1 text-base leading-6 text-gray-400 font-Work">
             {{ formatRuntime(movie.runtime) }}
           </dd>
         </div>
@@ -110,7 +116,9 @@ export default {
         <!-- Colonne 2 -->
         <div class="col-span-1 p-4">
           <!-- Genres -->
-          <dt class="text-base font-medium leading-6 text-primary">Genres</dt>
+          <dt class="text-base font-medium leading-6 text-primary font-Abril">
+            Genres
+          </dt>
           <dd class="mt-1 text-base leading-6 text-gray-700">
             <span
               v-for="(genre, index) in movie.genres"
@@ -128,7 +136,7 @@ export default {
         <!-- Colonne 3 -->
         <div class="col-span-1 p-4">
           <!-- Produit par -->
-          <dt class="text-base font-medium leading-6 text-primary">
+          <dt class="text-base font-medium leading-6 text-primary font-Abril">
             Produit par
           </dt>
           <dd class="mt-1 text-base leading-6 text-gray-700">
@@ -149,7 +157,7 @@ export default {
       </div>
     </div>
     <div class="px-4 py-6 flex flex-wrap">
-      <h4 class="text-base font-medium leading-6 text-primary">
+      <h4 class="text-base font-medium leading-6 text-primary font-Abril">
         Films similaires
       </h4>
       <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

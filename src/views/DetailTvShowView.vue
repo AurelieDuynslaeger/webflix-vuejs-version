@@ -41,7 +41,7 @@ export default {
   <div v-else class="w-full text-foreground">
     <!-- Bannière Principale -->
     <section
-      class="relative bg-cover bg-center h-96 flex items-end justify-center text-center"
+      class="relative h-96 flex items-end justify-center text-center"
       :style="{
         backgroundImage: `url(${getImageUrl(tvShow.backdrop_path)})`,
         backgroundSize: 'contain',
@@ -51,25 +51,25 @@ export default {
     >
       <!-- Évaluation des Spectateurs -->
       <section
-        class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto text-center text-foreground"
+        class="px-4 md:px-8 py-6 md:py-10 max-w-screen-xl mx-auto text-center text-foreground backdrop-blur-sm"
       >
-        <h2 class="text-2xl font-semibold mb-2">Évaluation des Spectateurs</h2>
-        <p class="text-4xl font-bold">
+        <h2 class="text-2xl mb-2 font-Abril">Évaluation des Spectateurs</h2>
+        <p class="text-4xl font-bold font-Work">
           {{ tvShow.vote_average }}
         </p>
-        <p class="">Basé sur {{ tvShow.vote_count }} votes</p>
+        <p class="font-Work">Basé sur {{ tvShow.vote_count }} votes</p>
       </section>
     </section>
 
     <!-- Informations Clés -->
     <section class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto">
       <h1
-        class="text-4xl md:text-7xl text-primary uppercase mb-12 text-center font-mango"
+        class="text-4xl md:text-7xl text-primary uppercase mb-12 text-center font-Abril"
       >
         {{ tvShow.name }}
       </h1>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-Work">
         <div>
           <h2 class="text-2xl font-semibold mb-2 text-chart-4">
             Informations Clés
@@ -113,7 +113,9 @@ export default {
     </section>
 
     <!-- Épisodes Récents et À Venir -->
-    <section class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto">
+    <section
+      class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto font-Work"
+    >
       <h2 class="text-2xl font-semibold mb-4 text-chart-4">Épisodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
@@ -130,7 +132,7 @@ export default {
           </p>
           <p>
             <strong>Note:</strong>
-            {{ tvShow.last_episode_to_air.vote_average }} / 10
+            {{ tvShow.last_episode_to_air.vote_average }}/10
           </p>
         </div>
         <!-- Réseaux de Diffusion et Compagnies de Production -->
@@ -145,7 +147,7 @@ export default {
                   <img
                     :src="getImageUrl(network.logo_path)"
                     :alt="network.name"
-                    class="h-6 grayscale"
+                    class="h-6 hue-rotate-180"
                   />
                 </template>
               </div>

@@ -26,24 +26,26 @@ const totalStars = 10
         class="w-full h-48 object-cover filter grayscale"
       />
       <div class="px-6 py-4">
-        <div class="font-bold text-base mb-2 text-primary uppercase">
+        <div class="font-bold text-base mb-2 text-primary uppercase font-Work">
           {{ title }}
         </div>
-        <p class="text-gray-300 text-base mb-2 line-clamp-3">{{ overview }}</p>
+        <p class="text-gray-300 text-base mb-2 line-clamp-3 font-Work">
+          {{ overview }}
+        </p>
         <p class="text-gray-500 text-sm">
-          <strong>Release Date:</strong> {{ releaseDate }}
+          <strong>Date de Sortie:</strong> {{ releaseDate }}
         </p>
         <div class="flex mt-2">
           <span
             v-for="star in filledStars"
             :key="star"
-            class="text-primary text-xl"
+            class="text-primary text-3xl"
             >&#9733;</span
           >
           <span
             v-for="star in totalStars - filledStars"
             :key="star"
-            class="text-gray-300 text-xl"
+            class="text-gray-300 text-3xl"
             >&#9734;</span
           >
         </div>

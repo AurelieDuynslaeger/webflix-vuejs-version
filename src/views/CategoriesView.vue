@@ -9,6 +9,7 @@ import MovieCard from '@/components/MovieCard.vue'
 
 const movies = ref([])
 const genres = ref([])
+const selectedGenres = ref(new Set())
 
 onMounted(async () => {
   const genresResponse = await getGenres()
@@ -18,16 +19,27 @@ onMounted(async () => {
   movies.value = moviesResponse
 })
 
-// Méthode pour récupérer les films par genre
+// Méthode pour récupérer les films par plusieurs genres
 const fetchMoviesByGenre = async genreId => {
-  const moviesResponse = await getMoviesByGenre(genreId)
+  // Ajout ou suppression du genre sélectionné
+  if (selectedGenres.value.has(genreId)) {
+    selectedGenres.value.delete(genreId)
+  } else {
+    selectedGenres.value.add(genreId)
+  }
+
+  // Transformation en tableau pour passer à l'API
+  const genreIds = Array.from(selectedGenres.value)
+  const moviesResponse = await getMoviesByGenre(genreIds)
   movies.value = moviesResponse
 }
 </script>
 
 <template>
-  <div class="">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
+  <div>
+    <h1
+      class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Abril"
+    >
       Catégories
     </h1>
 
@@ -38,7 +50,11 @@ const fetchMoviesByGenre = async genreId => {
           v-for="genre in genres"
           :key="genre.id"
           @click="fetchMoviesByGenre(genre.id)"
-          class="m-2 bg-chart-4 text-white py-2 px-4 rounded hover:bg-foreground hover:text-primary"
+          :class="{
+            'bg-primary text-white': selectedGenres.has(genre.id),
+            'bg-secondary text-primary': !selectedGenres.has(genre.id),
+          }"
+          class="m-2 py-2 px-4 rounded hover:bg-foreground hover:text-primary"
         >
           {{ genre.name }}
         </button>
@@ -60,5 +76,3 @@ const fetchMoviesByGenre = async genreId => {
     </div>
   </div>
 </template>
-
-<style></style>
