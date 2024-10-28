@@ -40,20 +40,10 @@ const config = {
 				'chart-3': 'var(--chart-3)',
 				'chart-4': 'var(--chart-4)',
 				'chart-5': 'var(--chart-5)',
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
 			},
 			fontFamily: {
-				Abril: ['Abril Fatface', 'cursive'],
-				Work: ['Work Sans', 'sans-serif'],
+				Bebas: ['Bebas Neue', 'sans-serif'],
+				Source: ['Source Sans 3', 'sans-serif'],
 			}
 		}
 	},

@@ -64,12 +64,12 @@ export default {
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2">
         <h3
-          class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Abril"
+          class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Bebas"
         >
           {{ movie.title }}
         </h3>
         <p
-          class="mt-1 max-w-4xl m-auto text-sm leading-8 text-gray-300 mb-6 font-Work"
+          class="mt-1 max-w-4xl m-auto text-sm leading-8 text-gray-300 mb-6 font-Source"
         >
           {{ movie.overview }}
         </p>
@@ -97,18 +97,18 @@ export default {
         <!-- Colonne 1 -->
         <div class="col-span-1 p-4">
           <!-- Date de Sortie -->
-          <dt class="text-base font-medium leading-6 text-primary font-Abril">
+          <dt class="text-base font-medium leading-6 text-primary font-Bebas">
             Date de Sortie
           </dt>
-          <dd class="mt-1 text-base leading-6 text-gray-400 font-Work">
+          <dd class="mt-1 text-base leading-6 text-gray-400 font-Source">
             {{ formatDate(movie.release_date) }}
           </dd>
 
           <!-- Durée -->
-          <dt class="text-base font-medium leading-6 text-primary font-Abril">
+          <dt class="text-base font-medium leading-6 text-primary font-Bebas">
             Durée
           </dt>
-          <dd class="mt-1 text-base leading-6 text-gray-400 font-Work">
+          <dd class="mt-1 text-base leading-6 text-gray-400 font-Source">
             {{ formatRuntime(movie.runtime) }}
           </dd>
         </div>
@@ -116,7 +116,7 @@ export default {
         <!-- Colonne 2 -->
         <div class="col-span-1 p-4">
           <!-- Genres -->
-          <dt class="text-base font-medium leading-6 text-primary font-Abril">
+          <dt class="text-base font-medium leading-6 text-primary font-Bebas">
             Genres
           </dt>
           <dd class="mt-1 text-base leading-6 text-gray-700">
@@ -136,7 +136,7 @@ export default {
         <!-- Colonne 3 -->
         <div class="col-span-1 p-4">
           <!-- Produit par -->
-          <dt class="text-base font-medium leading-6 text-primary font-Abril">
+          <dt class="text-base font-medium leading-6 text-primary font-Bebas">
             Produit par
           </dt>
           <dd class="mt-1 text-base leading-6 text-gray-700">
@@ -157,7 +157,7 @@ export default {
       </div>
     </div>
     <div class="px-4 py-6 flex flex-wrap">
-      <h4 class="text-base font-medium leading-6 text-primary font-Abril">
+      <h4 class="text-base font-medium leading-6 text-primary font-Bebas">
         Films similaires
       </h4>
       <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

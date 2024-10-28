@@ -53,23 +53,23 @@ export default {
       <section
         class="px-4 md:px-8 py-6 md:py-10 max-w-screen-xl mx-auto text-center text-foreground backdrop-blur-sm"
       >
-        <h2 class="text-2xl mb-2 font-Abril">Évaluation des Spectateurs</h2>
-        <p class="text-4xl font-bold font-Work">
+        <h2 class="text-2xl mb-2 font-Bebas">Évaluation des Spectateurs</h2>
+        <p class="text-4xl font-bold font-Source">
           {{ tvShow.vote_average }}
         </p>
-        <p class="font-Work">Basé sur {{ tvShow.vote_count }} votes</p>
+        <p class="font-Source">Basé sur {{ tvShow.vote_count }} votes</p>
       </section>
     </section>
 
     <!-- Informations Clés -->
     <section class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto">
       <h1
-        class="text-4xl md:text-7xl text-primary uppercase mb-12 text-center font-Abril"
+        class="text-4xl md:text-7xl text-primary uppercase mb-12 text-center font-Bebas"
       >
         {{ tvShow.name }}
       </h1>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-Work">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-Source">
         <div>
           <h2 class="text-2xl font-semibold mb-2 text-chart-4">
             Informations Clés
@@ -114,7 +114,7 @@ export default {
 
     <!-- Épisodes Récents et À Venir -->
     <section
-      class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto font-Work"
+      class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto font-Source"
     >
       <h2 class="text-2xl font-semibold mb-4 text-chart-4">Épisodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

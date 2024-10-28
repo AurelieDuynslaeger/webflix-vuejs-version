@@ -1,22 +1,23 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 
 import 'primeicons/primeicons.css'
+
+const route = useRoute()
 </script>
 
 <template>
   <div class="min-h-screen w-screen bg-background text-foreground">
     <div class="w-screen h-screen flex relative">
-      <div class="p-4 w-1/8 flex flex-col justify-evenly font-Abril">
+      <div class="p-4 w-1/8 flex flex-col justify-evenly font-Bebas">
         <nav
           class="flex flex-col justify-between space-y-4 text-xl font-mangoExtLt"
         >
           <RouterLink
             to="/"
-            v-slot="{ isActive }"
             :class="{
-              'text-foreground font-bold': isActive,
-              'hover:text-primary': !isActive,
+              'text-foreground font-bold': route.path === '/',
+              'hover:text-primary': route.path !== '/',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -25,10 +26,9 @@ import 'primeicons/primeicons.css'
 
           <RouterLink
             to="/films"
-            v-slot="{ isActive }"
             :class="{
-              'text-primary-foreground font-bold': isActive,
-              'hover:text-primary-foreground': !isActive,
+              'text-foreground font-bold': route.path === '/films',
+              'hover:text-primary': route.path !== '/films',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -37,10 +37,9 @@ import 'primeicons/primeicons.css'
 
           <RouterLink
             to="/series"
-            v-slot="{ isActive }"
             :class="{
-              'text-primary-foreground font-bold': isActive,
-              'hover:text-primary-foreground': !isActive,
+              'text-foreground font-bold': route.path === '/series',
+              'hover:text-primary': route.path !== '/series',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -49,10 +48,9 @@ import 'primeicons/primeicons.css'
 
           <RouterLink
             to="/categories"
-            v-slot="{ isActive }"
             :class="{
-              'text-primary-foreground font-bold': isActive,
-              'hover:text-primary-foreground': !isActive,
+              'text-foreground font-bold': route.path === '/categories',
+              'hover:text-primary': route.path !== '/categories',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -61,10 +59,9 @@ import 'primeicons/primeicons.css'
 
           <RouterLink
             to="/actors"
-            v-slot="{ isActive }"
             :class="{
-              'text-primary-foreground font-bold': isActive,
-              'hover:text-primary-foreground': !isActive,
+              'text-foreground font-bold': route.path === '/actors',
+              'hover:text-primary': route.path !== '/actors',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -75,10 +72,9 @@ import 'primeicons/primeicons.css'
         <nav class="flex flex-col space-y-4">
           <RouterLink
             to="/login"
-            v-slot="{ isActive }"
             :class="{
-              'text-primary-foreground font-bold': isActive,
-              'hover:text-primary-foreground': !isActive,
+              'text-foreground font-bold': route.path === '/login',
+              'hover:text-primary': route.path !== '/login',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -86,10 +82,9 @@ import 'primeicons/primeicons.css'
           </RouterLink>
           <RouterLink
             to="/register"
-            v-slot="{ isActive }"
             :class="{
-              'text-primary-foreground font-bold': isActive,
-              'hover:text-primary-foreground': !isActive,
+              'text-primary-foreground font-bold': route.path === '/register',
+              'hover:text-primary-foreground': route.path !== '/register',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >
@@ -97,10 +92,9 @@ import 'primeicons/primeicons.css'
           </RouterLink>
           <RouterLink
             to="/about"
-            v-slot="{ isActive }"
             :class="{
-              'text-foreground font-bold': isActive,
-              'hover:text-primary': !isActive,
+              'text-foreground font-bold': route.path === '/about',
+              'hover:text-primary': route.path !== '/about',
             }"
             class="flex items-center justify-start gap-1 rounded-md p-2"
           >

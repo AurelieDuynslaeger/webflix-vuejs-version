@@ -18,7 +18,7 @@ const totalStars = 10
 <template>
   <router-link :to="{ name: 'DetailMovie', params: { id: props.id } }">
     <div
-      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-background border-2 border-border"
+      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg hover:custom-shadow m-4 bg-background border-2 border-border"
     >
       <img
         :src="imageUrl"
@@ -26,10 +26,12 @@ const totalStars = 10
         class="w-full h-48 object-cover filter grayscale"
       />
       <div class="px-6 py-4">
-        <div class="font-bold text-base mb-2 text-primary uppercase font-Work">
+        <div
+          class="font-bold text-base mb-2 text-primary uppercase font-Source"
+        >
           {{ title }}
         </div>
-        <p class="text-gray-300 text-base mb-2 line-clamp-3 font-Work">
+        <p class="text-gray-300 text-base mb-2 line-clamp-3 font-Source">
           {{ overview }}
         </p>
         <p class="text-gray-500 text-sm">
@@ -53,4 +55,8 @@ const totalStars = 10
     </div>
   </router-link>
 </template>
-<style></style>
+<style>
+.custom-shadow {
+  box-shadow: 0 4px 6px rgba(128, 0, 128, 0.4); /* Violet clair */
+}
+</style>

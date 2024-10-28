@@ -24,10 +24,12 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.posterPath}`
         class="w-full h-48 object-cover filter grayscale"
       />
       <div class="px-6 py-4 bg-background">
-        <div class="font-bold text-base mb-2 text-primary uppercase font-Work">
+        <div
+          class="font-bold text-base mb-2 text-primary uppercase font-Source"
+        >
           {{ name }}
         </div>
-        <p class="text-gray-300 text-base mb-2 line-clamp-3 font-Work">
+        <p class="text-gray-300 text-base mb-2 line-clamp-3 font-Source">
           {{ overview }}
         </p>
         <p class="text-gray-500 text-sm">

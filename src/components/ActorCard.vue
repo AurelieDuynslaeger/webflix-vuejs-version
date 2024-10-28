@@ -24,12 +24,12 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.profilePath}`
 
     <div class="flex flex-col justify-between p-4 leading-normal">
       <h5
-        class="mb-2 text-2xl tracking-tight text-gray-900 dark:text-white font-Abril"
+        class="mb-2 text-2xl tracking-tight text-gray-900 dark:text-white font-Bebas"
       >
         {{ props.name }}
       </h5>
       <div class="mt-3">
-        <h6 class="text-xl font-bold dark:text-white font-Work">
+        <h6 class="text-xl font-bold dark:text-white font-Source">
           Connu(e) pour :
         </h6>
         <div class="flex space-x-2 mt-2">
