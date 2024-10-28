@@ -15,8 +15,8 @@ onMounted(fetchActors)
 </script>
 
 <template>
-  <div class="bg-gray-800">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-[#00bd7e]">
+  <div class="">
+    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
       Les Actrices/Acteurs les plus populaires 🔥
     </h1>
 

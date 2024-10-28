@@ -20,12 +20,12 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="bg-gray-800">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-[#00bd7e]">
+  <div class="">
+    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
       Séries Top Rated
     </h1>
 
-    <div v-if="isLoading" class="text-center text-white">
+    <div v-if="isLoading" class="text-center text-foreground">
       Chargement des séries...
     </div>
     <div v-else-if="error" class="text-center text-red-500">{{ error }}</div>
@@ -36,8 +36,6 @@ onMounted(async () => {
         :id="tvShow.id"
         :name="tvShow.name"
         :firstDateAir="tvShow.first_air_date"
-        :numberOfEpisodes="tvShow.number_of_episodes"
-        :numberOfSeasons="tvShow.number_of_seasons"
         :posterPath="tvShow.poster_path"
         :overview="tvShow.overview"
       />

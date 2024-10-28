@@ -21,8 +21,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="bg-gray-800">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-[#00bd7e]">
+  <div class="bg-background">
+    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
       Films Populaires
     </h1>
 

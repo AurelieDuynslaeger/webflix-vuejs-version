@@ -60,18 +60,13 @@ export default {
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div
-    v-else
-    class="bg-gray-800 h-screen flex flex-col justify-center w-3/4 m-auto"
-  >
+  <div v-else class="h-full flex flex-col justify-center w-3/4 m-auto">
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2">
-        <h3
-          class="text-4xl font-semibold leading-7 text-[#00bd7e] mb-8 uppercase"
-        >
+        <h3 class="text-3xl font-bold leading-7 text-primary mb-8 uppercase">
           {{ movie.title }}
         </h3>
-        <p class="mt-1 max-w-4xl m-auto text-xl leading-8 text-gray-300 mb-6">
+        <p class="mt-1 max-w-4xl m-auto text-sm leading-8 text-gray-300 mb-6">
           {{ movie.overview }}
         </p>
       </div>
@@ -93,12 +88,12 @@ export default {
         </dd>
       </div>
     </div>
-    <div class="mt-6 border-t border-[#00bd7e]">
+    <div class="mt-6 border-t border-chart-4">
       <div class="grid grid-cols-3 gap-4">
         <!-- Colonne 1 -->
         <div class="col-span-1 p-4">
           <!-- Date de Sortie -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">
+          <dt class="text-base font-medium leading-6 text-primary">
             Date de Sortie
           </dt>
           <dd class="mt-1 text-base leading-6 text-gray-400">
@@ -106,7 +101,7 @@ export default {
           </dd>
 
           <!-- Durée -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">Durée</dt>
+          <dt class="text-base font-medium leading-6 text-primary">Durée</dt>
           <dd class="mt-1 text-base leading-6 text-gray-400">
             {{ formatRuntime(movie.runtime) }}
           </dd>
@@ -115,14 +110,14 @@ export default {
         <!-- Colonne 2 -->
         <div class="col-span-1 p-4">
           <!-- Genres -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">Genres</dt>
+          <dt class="text-base font-medium leading-6 text-primary">Genres</dt>
           <dd class="mt-1 text-base leading-6 text-gray-700">
             <span
               v-for="(genre, index) in movie.genres"
               :key="genre.id"
               class="inline-block mr-2"
             >
-              <a href="#" class="text-gray-400 hover:text-[#00bd7e]">{{
+              <a href="#" class="text-gray-400 hover:text-primary">{{
                 genre.name
               }}</a>
               <span v-if="index < movie.genres.length - 1">, </span>
@@ -133,7 +128,7 @@ export default {
         <!-- Colonne 3 -->
         <div class="col-span-1 p-4">
           <!-- Produit par -->
-          <dt class="text-base font-medium leading-6 text-[#00bd7e]">
+          <dt class="text-base font-medium leading-6 text-primary">
             Produit par
           </dt>
           <dd class="mt-1 text-base leading-6 text-gray-700">
@@ -154,7 +149,7 @@ export default {
       </div>
     </div>
     <div class="px-4 py-6 flex flex-wrap">
-      <h4 class="text-base font-medium leading-6 text-[#00bd7e]">
+      <h4 class="text-base font-medium leading-6 text-primary">
         Films similaires
       </h4>
       <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

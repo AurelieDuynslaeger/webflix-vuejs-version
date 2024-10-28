@@ -26,8 +26,8 @@ const fetchMoviesByGenre = async genreId => {
 </script>
 
 <template>
-  <div class="bg-gray-800">
-    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-[#00bd7e]">
+  <div class="">
+    <h1 class="text-4xl font-bold mb-8 py-8 text-center text-primary">
       Catégories
     </h1>
 
@@ -38,7 +38,7 @@ const fetchMoviesByGenre = async genreId => {
           v-for="genre in genres"
           :key="genre.id"
           @click="fetchMoviesByGenre(genre.id)"
-          class="m-2 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+          class="m-2 bg-chart-4 text-white py-2 px-4 rounded hover:bg-foreground hover:text-primary"
         >
           {{ genre.name }}
         </button>

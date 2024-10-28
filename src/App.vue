@@ -1,98 +1,86 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import {
-  House,
-  Film,
-  Filter,
-  Avatar,
-  CirclePlusFilled,
-  TopRight,
-  Monitor,
-} from '@element-plus/icons-vue'
 
-import { ElAside, ElMain, ElIcon, ElContainer } from 'element-plus'
+import 'primeicons/primeicons.css'
 </script>
 
 <template>
-  <div class="common-layout">
-    <el-container class="w-screen h-screen flex relative">
-      <el-aside
-        class="bg-gray-800 text-white p-4 w-1/5 flex flex-col justify-evenly"
-      >
+  <div class="min-h-screen w-screen bg-background text-foreground">
+    <div class="w-screen h-screen flex relative">
+      <div class="p-4 w-1/8 flex flex-col justify-evenly">
         <img
           src="./assets/webflix_logo.svg"
           alt="webflix logo"
-          srcset=""
-          class="w-1/2"
+          class="w-full"
         />
-        <nav class="flex flex-col justify-between space-y-4 text-xl">
+        <nav
+          class="flex flex-col justify-between space-y-4 text-xl font-mangoExtLt"
+        >
           <RouterLink
             to="/"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
-            <el-icon class="w-4 h-4 text-[#00bd7e]"><House /></el-icon>
-            Home</RouterLink
-          >
+            <i class="pi pi-home"></i> Home
+          </RouterLink>
 
           <RouterLink
             to="/films"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Film /></el-icon
-            >Films</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            <i class="pi pi-video"></i> Films
+          </RouterLink>
+
           <RouterLink
             to="/series"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Monitor /></el-icon
-            >Séries</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            <i class="pi pi-desktop"></i> Séries
+          </RouterLink>
+
           <RouterLink
             to="/categories"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Filter /></el-icon
-            >Categories</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            <i class="pi pi-filter"></i> Categories
+          </RouterLink>
+
           <RouterLink
             to="/actors"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            ><el-icon class="w-4 h-4 text-[#00bd7e]"><Avatar /></el-icon
-            >Actors</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            <i class="pi pi-users"></i> Actors
+          </RouterLink>
         </nav>
+
         <nav class="flex flex-col space-y-4">
           <RouterLink
             to="/login"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            ><el-icon class="w-4 h-4 text-[#00bd7e]"><TopRight /></el-icon
-            >Login</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            Login
+          </RouterLink>
           <RouterLink
             to="/register"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            ><el-icon class="w-4 h-4 text-[#00bd7e]"
-              ><CirclePlusFilled /></el-icon
-            >Register</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            Register
+          </RouterLink>
           <RouterLink
             to="/about"
-            class="hover:text-white hover:font-bold flex items-center justify-start gap-1"
-            >About</RouterLink
+            class="hover:text-primary-foreground hover:font-bold flex items-center justify-start gap-1 rounded-md p-2"
           >
+            About
+          </RouterLink>
         </nav>
-      </el-aside>
+      </div>
 
-      <el-main
-        class="bg-gray-800 w-4/5 h-screen overflow-y-auto overflow-x-hidden scrollbar-custom"
+      <main
+        class="bg-background text-foreground w-full h-screen overflow-y-auto overflow-x-hidden scrollbar-custom"
       >
         <RouterView />
-      </el-main>
-    </el-container>
+      </main>
+    </div>
   </div>
 </template>
 
-<style scoped>
-.common-layout {
-  min-height: 100vh;
-  width: 100vw;
-}
-</style>
+<style></style>

@@ -38,29 +38,40 @@ export default {
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div v-else class="w-4/5 m-auto text-white bg-gray-800">
+  <div v-else class="w-full text-foreground">
     <!-- Bannière Principale -->
     <section
-      class="relative bg-cover bg-center h-96 flex items-center justify-center text-center"
+      class="relative bg-cover bg-center h-96 flex items-end justify-center text-center"
       :style="{
         backgroundImage: `url(${getImageUrl(tvShow.backdrop_path)})`,
         backgroundSize: 'contain',
         backgroundPosition: 'top',
         backgroundRepeat: 'no-repeat',
       }"
-    ></section>
+    >
+      <!-- Évaluation des Spectateurs -->
+      <section
+        class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto text-center text-foreground"
+      >
+        <h2 class="text-2xl font-semibold mb-2">Évaluation des Spectateurs</h2>
+        <p class="text-4xl font-bold">
+          {{ tvShow.vote_average }}
+        </p>
+        <p class="">Basé sur {{ tvShow.vote_count }} votes</p>
+      </section>
+    </section>
 
     <!-- Informations Clés -->
     <section class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto">
       <h1
-        class="text-4xl md:text-7xl font-bold text-[#00bd7e] uppercase mb-12 text-center"
+        class="text-4xl md:text-7xl text-primary uppercase mb-12 text-center font-mango"
       >
         {{ tvShow.name }}
       </h1>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <h2 class="text-2xl font-semibold mb-2 text-[#00bd7e]">
+          <h2 class="text-2xl font-semibold mb-2 text-chart-4">
             Informations Clés
           </h2>
           <p>
@@ -90,22 +101,20 @@ export default {
           </p>
           <a
             href="{{ tvShow.homepage }}"
-            class="inline-block bg-[#00bd7e] hover:bg-white text-white hover:text-[#00bd7e] px-4 py-2 rounded m-4"
+            class="inline-block bg-primary hover:bg-white text-white hover:text-primary px-4 py-2 rounded m-4"
             >Site Officiel</a
           >
         </div>
         <div>
-          <h2 class="text-2xl font-semibold mb-2 text-[#00bd7e]">Résumé</h2>
+          <h2 class="text-2xl font-semibold mb-2 text-chart-4">Résumé</h2>
           <p class="text-gray-300">{{ tvShow.overview }}</p>
         </div>
       </div>
     </section>
 
     <!-- Épisodes Récents et À Venir -->
-    <section
-      class="px-6 md:px-12 py-8 md:py-8 bg-gray-800 max-w-screen-xl mx-auto"
-    >
-      <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">Épisodes</h2>
+    <section class="px-6 md:px-12 py-8 md:py-8 max-w-screen-xl mx-auto">
+      <h2 class="text-2xl font-semibold mb-4 text-chart-4">Épisodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h3 class="text-xl font-semibold">Dernier Épisode Diffusé</h3>
@@ -125,12 +134,10 @@ export default {
           </p>
         </div>
         <!-- Réseaux de Diffusion et Compagnies de Production -->
-        <div
-          class="px-6 md:px-12 py-8 md:py-12 bg-gray-800 max-w-screen-xl mx-auto"
-        >
+        <div class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
           <div class="flex">
             <div>
-              <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+              <h2 class="text-2xl font-semibold mb-4 text-chart-4">
                 Réseaux de Diffusion
               </h2>
               <div class="flex space-x-4">
@@ -150,12 +157,12 @@ export default {
 
     <!-- Saisons Disponibles -->
     <section class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-4 text-[#00bd7e]">
+      <h2 class="text-2xl font-semibold mb-4 text-chart-4">
         Saisons Disponibles
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-8">
         <template v-for="season in tvShow.seasons" :key="season.id">
-          <div class="bg-gray-800 rounded-lg p-4 text-center">
+          <div class="rounded-lg p-4 text-center">
             <img
               :src="getImageUrl(season.poster_path)"
               :alt="'Saison ' + season.season_number"
@@ -164,20 +171,10 @@ export default {
             <h3 class="text-lg font-semibold">
               Saison {{ season.season_number }}
             </h3>
-            <p>Première Diffusion: {{ season.air_date }}</p>
             <p>Épisodes: {{ season.episode_count }}</p>
           </div>
         </template>
       </div>
-    </section>
-
-    <!-- Évaluation des Spectateurs -->
-    <section
-      class="px-6 md:px-12 py-8 md:py-12 max-w-screen-xl mx-auto text-center"
-    >
-      <h2 class="text-2xl font-semibold mb-4">Évaluation des Spectateurs</h2>
-      <p class="text-4xl font-bold">{{ tvShow.vote_average }}</p>
-      <p class="text-gray-400">Basé sur {{ tvShow.vote_count }} votes</p>
     </section>
   </div>
 </template>

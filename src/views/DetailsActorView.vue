@@ -34,7 +34,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="bg-gray-800 p-8 text-white">
+  <div class="p-8 text-foreground">
     <div class="flex flex-col items-center">
       <img
         :src="

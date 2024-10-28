@@ -18,7 +18,7 @@ const totalStars = 10
 <template>
   <router-link :to="{ name: 'DetailMovie', params: { id: props.id } }">
     <div
-      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-gray-800 border-2 border-[#00bd7e]"
+      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-background border-2 border-border"
     >
       <img
         :src="imageUrl"
@@ -26,7 +26,7 @@ const totalStars = 10
         class="w-full h-48 object-cover filter grayscale"
       />
       <div class="px-6 py-4">
-        <div class="font-bold text-base mb-2 text-[#00bd7e] uppercase">
+        <div class="font-bold text-base mb-2 text-primary uppercase">
           {{ title }}
         </div>
         <p class="text-gray-300 text-base mb-2 line-clamp-3">{{ overview }}</p>
@@ -37,7 +37,7 @@ const totalStars = 10
           <span
             v-for="star in filledStars"
             :key="star"
-            class="text-[#00bd7e] text-xl"
+            class="text-primary text-xl"
             >&#9733;</span
           >
           <span
