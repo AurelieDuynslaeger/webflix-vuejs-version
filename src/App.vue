@@ -1,9 +1,24 @@
 <script setup>
-import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+const isAuthenticated = ref(false)
 
 import 'primeicons/primeicons.css'
 
 const route = useRoute()
+const router = useRouter()
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  isAuthenticated.value = false
+  // Redirige l'utilisateur si nécessaire
+  router.push('/login')
+}
+
+onMounted(() => {
+  isAuthenticated.value = !!localStorage.getItem('token')
+})
 </script>
 
 <template>
@@ -67,40 +82,25 @@ const route = useRoute()
           >
             <i class="mr-2 pi pi-users"></i> Actors
           </RouterLink>
+          <RouterLink
+            v-if="isAuthenticated"
+            to="/account"
+            :class="{
+              'text-foreground font-bold': route.path === '/account',
+              'hover:text-primary': route.path !== '/account',
+            }"
+            class="flex items-center justify-start gap-1 rounded-md p-2"
+          >
+            <i class="mr-2 pi pi-user"></i> Mon Compte
+          </RouterLink>
+          <button
+            v-if="isAuthenticated"
+            @click="handleLogout"
+            class="flex items-center gap-1 p-2"
+          >
+            <i class="mr-2 pi pi-sign-out"></i> Déconnexion
+          </button>
         </nav>
-
-        <!-- <nav class="flex flex-col space-y-4">
-          <RouterLink
-            to="/login"
-            :class="{
-              'text-foreground font-bold': route.path === '/login',
-              'hover:text-primary': route.path !== '/login',
-            }"
-            class="flex items-center justify-start gap-1 rounded-md p-2"
-          >
-            Login
-          </RouterLink>
-          <RouterLink
-            to="/register"
-            :class="{
-              'text-primary-foreground font-bold': route.path === '/register',
-              'hover:text-primary-foreground': route.path !== '/register',
-            }"
-            class="flex items-center justify-start gap-1 rounded-md p-2"
-          >
-            Register
-          </RouterLink>
-          <RouterLink
-            to="/about"
-            :class="{
-              'text-foreground font-bold': route.path === '/about',
-              'hover:text-primary': route.path !== '/about',
-            }"
-            class="flex items-center justify-start gap-1 rounded-md p-2"
-          >
-            About
-          </RouterLink>
-        </nav> -->
       </div>
 
       <main
