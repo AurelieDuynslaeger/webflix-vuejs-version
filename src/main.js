@@ -7,8 +7,8 @@ import router from './router'
 
 const app = createApp(App)
 
-app.use(router)
 
+app.use(router)
 app.mount('#app')
 app.use(Auth0Plugin, {
     domain: import.meta.env.VITE_AUTH0_DOMAIN,

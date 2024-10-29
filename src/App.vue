@@ -69,7 +69,7 @@ const route = useRoute()
           </RouterLink>
         </nav>
 
-        <nav class="flex flex-col space-y-4">
+        <!-- <nav class="flex flex-col space-y-4">
           <RouterLink
             to="/login"
             :class="{
@@ -100,7 +100,7 @@ const route = useRoute()
           >
             About
           </RouterLink>
-        </nav>
+        </nav> -->
       </div>
 
       <main
