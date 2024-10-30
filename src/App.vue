@@ -1,24 +1,11 @@
 <script setup>
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
-
-const isAuthenticated = ref(false)
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { useAuth0 } from '@auth0/auth0-vue'
 
 import 'primeicons/primeicons.css'
 
 const route = useRoute()
-const router = useRouter()
-
-const handleLogout = () => {
-  localStorage.removeItem('token')
-  isAuthenticated.value = false
-  // Redirige l'utilisateur si nécessaire
-  router.push('/login')
-}
-
-onMounted(() => {
-  isAuthenticated.value = !!localStorage.getItem('token')
-})
+const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
 </script>
 
 <template>
@@ -95,10 +82,17 @@ onMounted(() => {
           </RouterLink>
           <button
             v-if="isAuthenticated"
-            @click="handleLogout"
+            @click="() => logout({ returnTo: window.location.origin })"
             class="flex items-center gap-1 p-2"
           >
             <i class="mr-2 pi pi-sign-out"></i> Déconnexion
+          </button>
+          <button
+            v-else
+            @click="loginWithRedirect"
+            class="flex items-center gap-1 p-2"
+          >
+            <i class="mr-2 pi pi-sign-in"></i> Connexion
           </button>
         </nav>
       </div>
