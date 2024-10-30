@@ -25,7 +25,7 @@ const handleSubmit = async () => {
     const response = await signup(username.value, email.value, password.value)
 
     // Vérifie si la réponse est ok (tu peux aussi vérifier des détails spécifiques si besoin)
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       // Redirection vers la page d'accueil après inscription réussie
       router.push('/')
     } else {

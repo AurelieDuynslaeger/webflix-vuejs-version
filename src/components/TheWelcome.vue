@@ -1,14 +1,26 @@
 <script setup>
 import { ref } from 'vue'
-import { useAuth0 } from '@auth0/auth0-vue'
+import { login } from '../services/webflixApi'
 
-const { loginWithRedirect } = useAuth0()
 const email = ref('')
 const password = ref('')
 
-// Fonction pour gérer la connexion
-const login = () => {
-  loginWithRedirect()
+const handleSubmit = async e => {
+  e.preventDefault() //Empêche le rechargement de la page
+
+  try {
+    const response = await login(email.value, password.value)
+    console.log('Connexion réussie:', response.data.token)
+    //stocker le token dans le localStorage ou l'état de votre application
+    localStorage.setItem('token', response.data.token)
+    //Rediriger vers la page d'accueil ou un tableau de bord
+    //router.push('/dashboard');
+  } catch (error) {
+    console.error('Erreur lors de la connexion:', error)
+    alert(
+      "Une erreur s'est produite lors de la connexion. Veuillez vérifier vos identifiants.",
+    )
+  }
 }
 </script>
 
@@ -36,7 +48,7 @@ const login = () => {
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm text-foreground">
-        <form class="space-y-6" @submit.prevent="login">
+        <form class="space-y-6" @submit="handleSubmit">
           <div>
             <label for="email" class="block text-base font-Source leading-6"
               >Email address</label

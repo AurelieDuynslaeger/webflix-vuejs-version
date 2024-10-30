@@ -1,19 +1,34 @@
 <script setup>
-import { RouterLink, RouterView, useRoute } from 'vue-router'
-import { useAuth0 } from '@auth0/auth0-vue'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+const isAuthenticated = ref(false)
 
 import 'primeicons/primeicons.css'
 
 const route = useRoute()
-const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
+const router = useRouter()
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  isAuthenticated.value = false
+  // Redirige l'utilisateur si nécessaire
+  router.push('/login')
+}
+
+onMounted(() => {
+  isAuthenticated.value = !!localStorage.getItem('token')
+})
 </script>
 
 <template>
   <div class="min-h-screen w-screen bg-background text-foreground">
     <div class="w-screen h-screen flex relative">
-      <div class="p-4 w-1/8 flex flex-col justify-evenly font-Bebas">
+      <div
+        class="p-4 w-1/8 flex flex-col justify-evenly font-Bebas border-r-2 border-primary h-full rounded-r-2xl"
+      >
         <nav
-          class="flex flex-col justify-between space-y-4 text-xl font-mangoExtLt"
+          class="flex flex-col justify-envenly gap-12 my-4 text-xl font-mangoExtLt"
         >
           <RouterLink
             to="/"
@@ -82,17 +97,10 @@ const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
           </RouterLink>
           <button
             v-if="isAuthenticated"
-            @click="() => logout({ returnTo: window.location.origin })"
+            @click="handleLogout"
             class="flex items-center gap-1 p-2"
           >
             <i class="mr-2 pi pi-sign-out"></i> Déconnexion
-          </button>
-          <button
-            v-else
-            @click="loginWithRedirect"
-            class="flex items-center gap-1 p-2"
-          >
-            <i class="mr-2 pi pi-sign-in"></i> Connexion
           </button>
         </nav>
       </div>
