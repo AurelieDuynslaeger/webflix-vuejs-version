@@ -22,3 +22,17 @@ export const login = async (email, password) => {
         throw error;
     }
 };
+
+export const addMovieToFavorites = async (filmId) => {
+    try {
+        const response = await axios.post(`${API_URL}/user/favorites/${filmId}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout du film aux favoris:', error);
+        throw error;
+    }
+};

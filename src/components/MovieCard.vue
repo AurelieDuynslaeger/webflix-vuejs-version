@@ -18,13 +18,14 @@ const totalStars = 10
 <template>
   <router-link :to="{ name: 'DetailMovie', params: { id: props.id } }">
     <div
-      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg hover:custom-shadow m-4 bg-background border-2 border-border"
+      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg hover:custom-shadow m-4 bg-background border-2 border-border relative"
     >
       <img
         :src="imageUrl"
         alt="Movie Poster"
         class="w-full h-48 object-cover filter grayscale"
       />
+
       <div class="px-6 py-4">
         <div
           class="font-bold text-base mb-2 text-primary uppercase font-Source"

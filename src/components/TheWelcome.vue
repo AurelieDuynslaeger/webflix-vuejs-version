@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { login } from '../services/webflixApi'
+import { message } from 'ant-design-vue'
+import 'ant-design-vue/dist/reset.css'
 
 const email = ref('')
 const password = ref('')
@@ -12,16 +14,15 @@ const handleSubmit = async e => {
 
   try {
     const response = await login(email.value, password.value)
-    console.log('Connexion réussie:', response.data.token)
-    //stocker le token dans le localStorage ou l'état de votre application
     localStorage.setItem('token', response.data.token)
-    //Rediriger vers la page d'accueil ou un tableau de bord
+    message.success('Connexion réussie !')
     router.push('/account')
   } catch (error) {
-    console.error('Erreur lors de la connexion:', error)
-    alert(
-      "Une erreur s'est produite lors de la connexion. Veuillez vérifier vos identifiants.",
-    )
+    let errorMessage = "Une erreur s'est produite lors de la connexion."
+    if (error.response && error.response.status === 400) {
+      errorMessage = 'Email ou mot de passe incorrect.'
+    }
+    message.error(errorMessage)
   }
 }
 </script>

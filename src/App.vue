@@ -106,7 +106,7 @@ onMounted(() => {
       </div>
 
       <main
-        class="bg-background text-foreground w-full h-screen overflow-y-auto overflow-x-hidden scrollbar-custom"
+        class="bg-background text-foreground w-full h-screen overflow-y-auto overflow-x-hidden scrollbar-custom my-8"
       >
         <RouterView />
       </main>

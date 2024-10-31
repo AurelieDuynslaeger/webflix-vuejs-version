@@ -4,6 +4,10 @@ import {
   fetchMovieVideos,
   fetchMovieSimilar,
 } from '@/services/moviesApi'
+import { addMovieToFavorites } from '@/services/webflixApi'
+import 'primeicons/primeicons.css'
+//etat pour gérer si le film est favori
+
 export default {
   data() {
     return {
@@ -12,6 +16,7 @@ export default {
       similars: [],
       isLoading: true,
       error: null,
+      isFavorite: false,
     }
   },
   async created() {
@@ -54,6 +59,20 @@ export default {
       )
       return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null
     },
+    async toggleFavorite() {
+      this.isFavorite = !this.isFavorite
+      const filmId = this.movie.id
+      if (this.isFavorite) {
+        try {
+          await addMovieToFavorites(filmId)
+          console.log('Film ajouté aux favoris')
+        } catch (error) {
+          console.error("Erreur lors de l'ajout aux favoris:", error)
+        }
+      } else {
+        // Logique pour retirer le film des favoris (si nécessaire)
+      }
+    },
   },
 }
 </script>
@@ -62,7 +81,7 @@ export default {
   <div v-else-if="error">{{ error }}</div>
   <div v-else class="h-full flex flex-col justify-center w-3/4 m-auto">
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
-      <div class="w-1/2">
+      <div class="w-1/2 relative">
         <h3
           class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Bebas"
         >
@@ -73,6 +92,18 @@ export default {
         >
           {{ movie.overview }}
         </p>
+        <span
+          @click.stop="toggleFavorite"
+          class="cursor-pointer absolute top-0 right-8 z-10 w-4 h-4"
+        >
+          <i
+            :class="
+              isFavorite
+                ? 'mr-2 pi pi-heart-fill text-4xl text-primary'
+                : 'mr-2 pi pi-heart text-4xl text-primary'
+            "
+          ></i>
+        </span>
       </div>
 
       <!-- video trailer -->
