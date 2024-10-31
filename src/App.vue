@@ -13,7 +13,7 @@ const handleLogout = () => {
   localStorage.removeItem('token')
   isAuthenticated.value = false
   // Redirige l'utilisateur si nécessaire
-  router.push('/login')
+  router.push('/')
 }
 
 onMounted(() => {

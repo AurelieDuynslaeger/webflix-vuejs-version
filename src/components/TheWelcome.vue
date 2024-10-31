@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { login } from '../services/webflixApi'
 
 const email = ref('')
 const password = ref('')
+const router = useRouter()
 
 const handleSubmit = async e => {
   e.preventDefault() //Empêche le rechargement de la page
@@ -14,7 +16,7 @@ const handleSubmit = async e => {
     //stocker le token dans le localStorage ou l'état de votre application
     localStorage.setItem('token', response.data.token)
     //Rediriger vers la page d'accueil ou un tableau de bord
-    //router.push('/dashboard');
+    router.push('/account')
   } catch (error) {
     console.error('Erreur lors de la connexion:', error)
     alert(
