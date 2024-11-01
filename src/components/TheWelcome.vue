@@ -15,6 +15,7 @@ const handleSubmit = async e => {
   try {
     const response = await login(email.value, password.value)
     localStorage.setItem('token', response.data.token)
+    console.log(localStorage.getItem('token'))
     message.success('Connexion réussie !')
     router.push('/account')
   } catch (error) {

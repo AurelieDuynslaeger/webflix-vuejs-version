@@ -61,7 +61,7 @@ export default {
     },
     async toggleFavorite() {
       this.isFavorite = !this.isFavorite
-      const filmId = this.movie.id
+      const filmId = this.$route.params.id
       if (this.isFavorite) {
         try {
           await addMovieToFavorites(filmId)
