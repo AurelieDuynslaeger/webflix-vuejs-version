@@ -4,9 +4,12 @@ import {
   fetchMovieVideos,
   fetchMovieSimilar,
 } from '@/services/moviesApi'
-import { addMovieToFavorites } from '@/services/webflixApi'
+import {
+  addMovieToFavorites,
+  getFavorites,
+  removeMovieFromFavorites,
+} from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
-//etat pour gérer si le film est favori
 
 export default {
   data() {
@@ -17,15 +20,21 @@ export default {
       isLoading: true,
       error: null,
       isFavorite: false,
+      favorites: [],
     }
   },
   async created() {
     const movieId = this.$route.params.id
     try {
+      //récupérer les détails du film
       this.movie = await fetchMovieDetails(movieId)
       this.trailers = await fetchMovieVideos(movieId)
       this.similars = await fetchMovieSimilar(movieId)
-      console.log(this.movie, this.trailers, this.similars) // Debugging
+
+      //Récupérer les films favoris
+      this.favorites = await getFavorites()
+
+      this.isFavorite = this.favorites.includes(movieId)
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
       console.error(error)
@@ -37,7 +46,6 @@ export default {
     getImageUrl(path) {
       return `https://image.tmdb.org/t/p/w500${path}`
     },
-    // Fonction pour formater la date
     formatDate(dateString) {
       const date = new Date(dateString)
       return date.toLocaleDateString('fr-FR', {
@@ -46,13 +54,11 @@ export default {
         year: 'numeric',
       })
     },
-    // Fonction pour formater la durée en heures et minutes
     formatRuntime(runtime) {
       const hours = Math.floor(runtime / 60)
       const minutes = runtime % 60
       return `${hours}h${minutes}min`
     },
-    // Nouvelle méthode pour obtenir l'URL de la bande-annonce
     getTrailer() {
       const trailer = this.trailers.find(
         trailer => trailer.type === 'Trailer' && trailer.site === 'YouTube',
@@ -60,17 +66,25 @@ export default {
       return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null
     },
     async toggleFavorite() {
-      this.isFavorite = !this.isFavorite
-      const filmId = this.$route.params.id
-      if (this.isFavorite) {
-        try {
+      const filmId = Number(this.$route.params.id)
+      try {
+        if (this.isFavorite) {
+          // Retirer des favoris
+          await removeMovieFromFavorites(filmId)
+          console.log('Film retiré des favoris')
+          this.favorites = this.favorites.filter(id => id !== filmId)
+        } else {
+          // Ajouter aux favoris
           await addMovieToFavorites(filmId)
           console.log('Film ajouté aux favoris')
-        } catch (error) {
-          console.error("Erreur lors de l'ajout aux favoris:", error)
+          this.favorites.push(filmId)
         }
-      } else {
-        // Logique pour retirer le film des favoris (si nécessaire)
+        this.isFavorite = !this.isFavorite
+      } catch (error) {
+        this.error = this.isFavorite
+          ? 'Erreur lors du retrait des favoris.'
+          : "Erreur lors de l'ajout aux favoris."
+        console.error(this.error, error)
       }
     },
   },

@@ -120,4 +120,3 @@ export const fetchTvShowDetails = async (id) => {
     return response.json();
 };
 
-

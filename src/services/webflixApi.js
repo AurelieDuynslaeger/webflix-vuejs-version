@@ -42,3 +42,32 @@ export const addMovieToFavorites = async (filmId) => {
         throw error;
     }
 };
+
+export const getFavorites = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/user/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des favoris:', error);
+        throw error;
+    }
+};
+
+export const removeMovieFromFavorites = async (filmId) => {
+    const response = await fetch(`${API_URL}/user/favorites/${filmId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to remove movie from favorites');
+    }
+    return response.json();
+};
