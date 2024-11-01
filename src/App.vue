@@ -11,6 +11,7 @@ const router = useRouter()
 
 const handleLogout = () => {
   localStorage.removeItem('token')
+  localStorage.removeItem('favorites')
   isAuthenticated.value = false
   // Redirige l'utilisateur si nécessaire
   router.push('/')

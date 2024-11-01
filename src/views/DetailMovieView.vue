@@ -6,7 +6,6 @@ import {
 } from '@/services/moviesApi'
 import {
   addMovieToFavorites,
-  getFavorites,
   removeMovieFromFavorites,
 } from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
@@ -23,7 +22,8 @@ export default {
       favorites: [],
     }
   },
-  async created() {
+
+  async mounted() {
     const movieId = this.$route.params.id
     try {
       //récupérer les détails du film
@@ -32,8 +32,7 @@ export default {
       this.similars = await fetchMovieSimilar(movieId)
 
       //Récupérer les films favoris
-      this.favorites = await getFavorites()
-
+      this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
       this.isFavorite = this.favorites.includes(movieId)
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
@@ -69,12 +68,12 @@ export default {
       const filmId = Number(this.$route.params.id)
       try {
         if (this.isFavorite) {
-          // Retirer des favoris
+          //retirer des favoris
           await removeMovieFromFavorites(filmId)
           console.log('Film retiré des favoris')
           this.favorites = this.favorites.filter(id => id !== filmId)
         } else {
-          // Ajouter aux favoris
+          //ajouter aux favoris
           await addMovieToFavorites(filmId)
           console.log('Film ajouté aux favoris')
           this.favorites.push(filmId)

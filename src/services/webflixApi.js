@@ -32,6 +32,9 @@ export const addMovieToFavorites = async (filmId) => {
                 'Authorization': `Bearer ${token}`
             }
         });
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favorites.push(filmId);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -50,6 +53,7 @@ export const getFavorites = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
+        localStorage.setItem('favorites', JSON.stringify(response.data));
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la récupération des favoris:', error);
@@ -69,5 +73,8 @@ export const removeMovieFromFavorites = async (filmId) => {
     if (!response.ok) {
         throw new Error('Failed to remove movie from favorites');
     }
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(id => id !== filmId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
     return response.json();
 };
