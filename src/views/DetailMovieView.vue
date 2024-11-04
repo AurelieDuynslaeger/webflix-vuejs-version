@@ -9,6 +9,10 @@ import {
   getFavorites,
   removeMovieFromFavorites,
   addMovieComment,
+  getAllMovieComments,
+  getCurrentUser,
+  editMovieComment,
+  deleteMovieComment,
 } from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
 
@@ -24,6 +28,9 @@ export default {
       favorites: [],
       newComment: '',
       comments: [],
+      currentUserId: null,
+      commentToEdit: null,
+      updatedCommentContent: '',
     }
   },
 
@@ -35,7 +42,10 @@ export default {
       this.trailers = await fetchMovieVideos(movieId)
       this.similars = await fetchMovieSimilar(movieId)
       this.favorites = await getFavorites(movieId)
-      // this.comments = await getComments(movieId)
+      this.comments = await getAllMovieComments(Number(movieId))
+      this.currentUserId = await getCurrentUser()
+
+      console.log(Array.from(this.comments))
 
       // Vérifier si le film est dans les favoris
       this.isFavorite = this.favorites.includes(Number(movieId))
@@ -91,8 +101,6 @@ export default {
         // Mettre à jour l'état de isFavorite
         this.isFavorite = !this.isFavorite
         console.log(`État après modification: ${this.isFavorite}`)
-        // Mettre à jour le local storage
-        // localStorage.setItem('favorites', JSON.stringify(this.favorites))
       } catch (error) {
         this.error = this.isFavorite
           ? 'Erreur lors du retrait des favoris.'
@@ -108,18 +116,80 @@ export default {
         const response = await addMovieComment(filmId, this.newComment)
         console.log('Commentaire ajouté avec succès:', response)
 
-        // Optionnel : Ajouter le commentaire localement sans recharger
-        this.comments.push(response.comment) // Assurez-vous que la réponse contient le commentaire
-        this.newComment = '' // Réinitialiser le champ de saisie
+        console.log('this.comments avant le push:', this.comments)
+        this.comments.push(response.comment)
+        this.newComment = ''
       } catch (error) {
         console.error("Erreur lors de l'ajout du commentaire:", error)
       }
     },
-    // Optionnel : Récupérer les commentaires existants lors du montage du composant
-    async fetchComments() {
-      // Vous pouvez créer une fonction d'API pour récupérer les commentaires du film
-      // const response = await getCommentsForMovie(this.movieId);
-      // this.comments = response.data; // Assurez-vous que la réponse contient les commentaires
+    formatCommentDate(dateString) {
+      const date = new Date(dateString)
+      const day = String(date.getDate()).padStart(2, '0')
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const year = String(date.getFullYear()).slice(-2)
+      return `${day}/${month}/${year}`
+    },
+    async fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser()
+        this.currentUserId = user.id
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur actuel:",
+          error,
+        )
+      }
+    },
+
+    isCommentAuthor(userId) {
+      return userId === this.currentUserId
+    },
+
+    editComment(comment) {
+      console.log('Éditer le commentaire:', comment)
+      this.commentToEdit = comment // Stocker le commentaire à éditer
+      this.updatedCommentContent = comment.content
+    },
+    async submitEdit() {
+      if (!this.commentToEdit) return
+
+      try {
+        const response = await editMovieComment(
+          Number(this.commentToEdit._id),
+          this.updatedCommentContent,
+        )
+        console.log('Commentaire modifié avec succès:', response)
+
+        // Mettre à jour la liste des commentaires
+        const index = this.comments.findIndex(
+          comment => comment._id === this.commentToEdit._id,
+        )
+        if (index !== -1) {
+          this.comments.splice(index, 1, response.comment)
+        }
+
+        this.commentToEdit = null
+        this.updatedCommentContent = ''
+      } catch (error) {
+        console.error('Erreur lors de la modification du commentaire:', error)
+      }
+    },
+
+    async deleteComment(commentId) {
+      const confirmed = window.confirm(
+        'Êtes-vous sûr de vouloir supprimer ce commentaire ?',
+      )
+      if (!confirmed) return
+      try {
+        await deleteMovieComment(commentId)
+        this.comments = this.comments.filter(
+          comment => comment._id !== commentId,
+        )
+        console.log('Commentaire supprimé avec succès')
+      } catch (error) {
+        console.error('Erreur lors de la suppression du commentaire:', error)
+      }
     },
   },
 }
@@ -127,7 +197,7 @@ export default {
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div v-else class="h-full flex flex-col justify-center w-3/4 m-auto">
+  <div v-else class="h-fit flex flex-col justify-center w-3/4 m-auto">
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2 relative">
         <h3
@@ -262,45 +332,71 @@ export default {
         </span>
       </div>
     </div>
-    <div class="px-4 py-6 flex flex-wrap">
-      <h4 class="text-base font-medium leading-6 text-primary font-Bebas">
+    <div class="w-4/5 m-auto">
+      <h4
+        class="text-2xl font-medium leading-6 text-primary font-Bebas text-center"
+      >
         Commentaires
       </h4>
       <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-        <!-- <span v-if="comments.length === 0">Aucun commentaire pour ce film.</span> -->
-        <!-- <span v-else>
-          <span
-            v-for="similar in similars"
-            :key="similar.id"
-            class="inline-block mr-2 transition-transform duration-200 hover:scale-105"
-          >
-            <router-link :to="`/film/${similar.id}`" class="">
-              <img
-                :src="
-                  similar.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${similar.poster_path}`
-                    : 'path/to/default_image.jpg'
-                "
-                :alt="similar.original_title"
-                class="rounded-lg mb-4 w-24 h-24 object-cover"
-              />
-            </router-link>
-          </span>
-        </span> -->
-        <form @submit.prevent="submitComment">
+        <form
+          @submit.prevent="submitComment"
+          class="flex flex-col justify-center items-center"
+        >
           <textarea
             v-model="newComment"
             placeholder="Écrivez votre commentaire ici..."
             required
+            class="p-4 w-1/2 rounded-lg"
           ></textarea>
-          <button type="submit">Ajouter un commentaire</button>
+          <button
+            type="submit"
+            class="w-1/4 bg-primary text-white p-2 m-2 rounded-lg"
+          >
+            Ajouter le commentaire
+          </button>
         </form>
 
-        <div v-if="comments.length">
-          <h3>Commentaires :</h3>
-          <ul>
-            <li v-for="comment in comments" :key="comment._id">
-              {{ comment.content }}
+        <div v-if="comments.length === 0">
+          <p>Aucun commentaire pour ce film.</p>
+        </div>
+        <div v-if="commentToEdit">
+          <h3>Modification de commentaire :</h3>
+          <textarea v-model="updatedCommentContent"></textarea>
+          <button @click="submitEdit">Soumettre</button>
+          <button @click="commentToEdit = null">Annuler</button>
+        </div>
+        <div v-else class="mt-8 flex flex-col justify-center w-2/3 m-auto">
+          <ul class="flex flex-col gap-2 justify-center">
+            <li
+              v-for="comment in comments"
+              :key="comment._id"
+              class="text-white relative flex justify-between items-center p-4 rounded-md bg-[#311065] border border-1 border-[#5b21b6]"
+            >
+              <p class="text-xl">{{ comment.content }}</p>
+              <p
+                class="border border-1 border-[#5b21b6] rounded-full px-2 py-1"
+              >
+                {{ comment.user.username }}
+              </p>
+              <span class="absolute bottom-1 right-3 text-xs font-bold">{{
+                formatCommentDate(comment.createdAt)
+              }}</span>
+
+              <div v-if="isCommentAuthor(comment.user.id)" class="ml-4">
+                <button
+                  @click="editComment(comment)"
+                  class="bg-yellow-500 text-black px-2 py-1 rounded-md"
+                >
+                  Éditer
+                </button>
+                <button
+                  @click="deleteComment(comment._id)"
+                  class="bg-red-500 text-white px-2 py-1 rounded-md"
+                >
+                  Supprimer
+                </button>
+              </div>
             </li>
           </ul>
         </div>
