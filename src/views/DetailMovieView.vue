@@ -8,6 +8,7 @@ import {
   addMovieToFavorites,
   getFavorites,
   removeMovieFromFavorites,
+  addMovieComment,
 } from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
 
@@ -21,6 +22,8 @@ export default {
       error: null,
       isFavorite: false,
       favorites: [],
+      newComment: '',
+      comments: [],
     }
   },
 
@@ -32,18 +35,10 @@ export default {
       this.trailers = await fetchMovieVideos(movieId)
       this.similars = await fetchMovieSimilar(movieId)
       this.favorites = await getFavorites(movieId)
-
-      // Récupérer les films favoris sans doublons
-      // this.favorites = Array.from(
-      //   new Set(JSON.parse(localStorage.getItem('favorites')) || []),
-      // )
-      console.log('Favoris récupérés:', Array.from(this.favorites))
+      // this.comments = await getComments(movieId)
 
       // Vérifier si le film est dans les favoris
-      this.isFavorite = this.favorites.includes(Number(movieId)) // Vérifiez ici si le film est dans les favoris
-      console.log(
-        `Film ID: ${movieId}, est dans les favoris: ${this.isFavorite}`,
-      )
+      this.isFavorite = this.favorites.includes(Number(movieId))
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
       console.error(error)
@@ -104,6 +99,27 @@ export default {
           : "Erreur lors de l'ajout aux favoris."
         console.error(this.error, error)
       }
+    },
+    async submitComment() {
+      const filmId = Number(this.$route.params.id)
+      console.log(this.newComment)
+
+      try {
+        const response = await addMovieComment(filmId, this.newComment)
+        console.log('Commentaire ajouté avec succès:', response)
+
+        // Optionnel : Ajouter le commentaire localement sans recharger
+        this.comments.push(response.comment) // Assurez-vous que la réponse contient le commentaire
+        this.newComment = '' // Réinitialiser le champ de saisie
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du commentaire:", error)
+      }
+    },
+    // Optionnel : Récupérer les commentaires existants lors du montage du composant
+    async fetchComments() {
+      // Vous pouvez créer une fonction d'API pour récupérer les commentaires du film
+      // const response = await getCommentsForMovie(this.movieId);
+      // this.comments = response.data; // Assurez-vous que la réponse contient les commentaires
     },
   },
 }
@@ -244,6 +260,50 @@ export default {
             </router-link>
           </span>
         </span>
+      </div>
+    </div>
+    <div class="px-4 py-6 flex flex-wrap">
+      <h4 class="text-base font-medium leading-6 text-primary font-Bebas">
+        Commentaires
+      </h4>
+      <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <!-- <span v-if="comments.length === 0">Aucun commentaire pour ce film.</span> -->
+        <!-- <span v-else>
+          <span
+            v-for="similar in similars"
+            :key="similar.id"
+            class="inline-block mr-2 transition-transform duration-200 hover:scale-105"
+          >
+            <router-link :to="`/film/${similar.id}`" class="">
+              <img
+                :src="
+                  similar.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${similar.poster_path}`
+                    : 'path/to/default_image.jpg'
+                "
+                :alt="similar.original_title"
+                class="rounded-lg mb-4 w-24 h-24 object-cover"
+              />
+            </router-link>
+          </span>
+        </span> -->
+        <form @submit.prevent="submitComment">
+          <textarea
+            v-model="newComment"
+            placeholder="Écrivez votre commentaire ici..."
+            required
+          ></textarea>
+          <button type="submit">Ajouter un commentaire</button>
+        </form>
+
+        <div v-if="comments.length">
+          <h3>Commentaires :</h3>
+          <ul>
+            <li v-for="comment in comments" :key="comment._id">
+              {{ comment.content }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

@@ -83,13 +83,13 @@ export const addMovieComment = async (filmId, comment) => {
     try {
         const token = localStorage.getItem('token');
         console.log('Token utilisé pour l\'authentification:', token);
-        const response = await axios.post(`${API_URL}/comments/${filmId}`, {}, {
+        const response = await axios.post(`${API_URL}/comments/${filmId}`, { comment }, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         let comments = JSON.parse(localStorage.getItem('comments')) || [];
-        comments.push(response.data.comment);
+        comments.push(filmId);
         localStorage.setItem('comments', JSON.stringify(comments));
         return response.data;
     } catch (error) {
