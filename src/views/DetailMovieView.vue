@@ -6,6 +6,7 @@ import {
 } from '@/services/moviesApi'
 import {
   addMovieToFavorites,
+  getFavorites,
   removeMovieFromFavorites,
 } from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
@@ -26,14 +27,23 @@ export default {
   async mounted() {
     const movieId = this.$route.params.id
     try {
-      //récupérer les détails du film
+      // Récupérer les détails du film
       this.movie = await fetchMovieDetails(movieId)
       this.trailers = await fetchMovieVideos(movieId)
       this.similars = await fetchMovieSimilar(movieId)
+      this.favorites = await getFavorites(movieId)
 
-      //Récupérer les films favoris
-      this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
-      this.isFavorite = this.favorites.includes(movieId)
+      // Récupérer les films favoris sans doublons
+      // this.favorites = Array.from(
+      //   new Set(JSON.parse(localStorage.getItem('favorites')) || []),
+      // )
+      console.log('Favoris récupérés:', Array.from(this.favorites))
+
+      // Vérifier si le film est dans les favoris
+      this.isFavorite = this.favorites.includes(Number(movieId)) // Vérifiez ici si le film est dans les favoris
+      console.log(
+        `Film ID: ${movieId}, est dans les favoris: ${this.isFavorite}`,
+      )
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
       console.error(error)
@@ -66,19 +76,28 @@ export default {
     },
     async toggleFavorite() {
       const filmId = Number(this.$route.params.id)
+      console.log(`Toggle Favorite pour le film ID: ${filmId}`)
       try {
         if (this.isFavorite) {
-          //retirer des favoris
+          // Retirer des favoris
           await removeMovieFromFavorites(filmId)
           console.log('Film retiré des favoris')
-          this.favorites = this.favorites.filter(id => id !== filmId)
+          this.isFavorite =
+            this.favorites.find(favoriteId => favoriteId === filmId) !==
+            undefined
         } else {
-          //ajouter aux favoris
-          await addMovieToFavorites(filmId)
-          console.log('Film ajouté aux favoris')
-          this.favorites.push(filmId)
+          // Ajouter aux favoris
+          if (!this.favorites.includes(Number(filmId))) {
+            await addMovieToFavorites(filmId)
+            console.log('Film ajouté aux favoris')
+            this.favorites.push(filmId)
+          }
         }
+        // Mettre à jour l'état de isFavorite
         this.isFavorite = !this.isFavorite
+        console.log(`État après modification: ${this.isFavorite}`)
+        // Mettre à jour le local storage
+        // localStorage.setItem('favorites', JSON.stringify(this.favorites))
       } catch (error) {
         this.error = this.isFavorite
           ? 'Erreur lors du retrait des favoris.'

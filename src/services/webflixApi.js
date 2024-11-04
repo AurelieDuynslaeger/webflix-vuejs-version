@@ -78,3 +78,26 @@ export const removeMovieFromFavorites = async (filmId) => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
     return response.json();
 };
+
+export const addMovieComment = async (filmId, comment) => {
+    try {
+        const token = localStorage.getItem('token');
+        console.log('Token utilisé pour l\'authentification:', token);
+        const response = await axios.post(`${API_URL}/comments/${filmId}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        let comments = JSON.parse(localStorage.getItem('comments')) || [];
+        comments.push(response.data.comment);
+        localStorage.setItem('comments', JSON.stringify(comments));
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Erreur lors de l\'ajout du commentaire:', error.response.data);
+        } else {
+            console.error('Erreur lors de la requête:', error.message);
+        }
+        throw error;
+    }
+};
