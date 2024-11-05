@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { signup } from '@/services/webflixApi'
+import 'primeicons/primeicons.css'
 
 const username = ref('')
 const email = ref('')
@@ -39,27 +40,25 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="w-full h-fit flex flex-col items-center justify-center mt-24">
-    <h1 class="text-foreground text-6xl font-Bebas">Inscription</h1>
-    <p class="text-xl w-[50%] font-Source text-center">
+  <div class="w-full h-fit flex flex-col items-center justify-center mt-36">
+    <h1 class="text-4xl w-[50%] font-Source text-center uppercase">
       Rejoignez notre communauté et commencez votre aventure cinématographique.
-    </p>
+    </h1>
     <p class="text-xl w-[50%] font-Source text-center">
       Créez un compte pour accéder à une vaste bibliothèque de films et de
       séries.
     </p>
     <div class="flex flex-col justify-center px-6 py-4 lg:px-8 w-1/2">
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          class="mx-auto h-16 w-auto"
-          src="./../assets/webflix_logo.svg"
-          alt="Your Company"
-        />
+      <div
+        class="sm:mx-auto sm:w-full sm:max-w-sm flex items-center justify-center gap-2"
+      >
+        <i class="m-2 pi pi-arrow-circle-down text-xl"></i>
         <h2
           class="mt-6 text-center text-2xl font-Bebas leading-9 tracking-tight text-foreground"
         >
-          Créez votre compte
+          c'est par ici
         </h2>
+        <i class="m-2 pi pi-arrow-circle-down text-xl"></i>
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg text-foreground">

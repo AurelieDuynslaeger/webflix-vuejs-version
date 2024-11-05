@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
   <div class="h-full w-screen bg-background text-foreground">
-    <header class="absolute inset-x-0 top-0 z-50">
+    <header class="absolute inset-x-0 top-0 z-50 bg-background">
       <nav
         class="flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -138,7 +138,11 @@ onMounted(() => {
           </button>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <RouterLink to="/login" class="text-sm/6 font-semibold text-white"
+          <RouterLink
+            v-if="!isAuthenticated"
+            to="/login"
+            :class="'hidden'"
+            class="text-sm/6 font-semibold text-white"
             >Log in <span aria-hidden="true">&rarr;</span></RouterLink
           >
         </div>
@@ -147,6 +151,7 @@ onMounted(() => {
       <div class="lg:hidden" role="dialog" aria-modal="true">
         <!-- Background backdrop, show/hide based on slide-over state. -->
         <div class="fixed inset-0 z-50"></div>
+
         <div
           class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
         >
