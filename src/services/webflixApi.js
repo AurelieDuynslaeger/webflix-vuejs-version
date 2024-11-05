@@ -107,7 +107,7 @@ export const editMovieComment = async (commentId, updatedContent) => {
     try {
         const token = localStorage.getItem('token');
         console.log('Token utilisé pour l\'authentification:', token);
-        const response = await axios.post(`${API_URL}/comments/${commentId}`, { content: updatedContent }, {
+        const response = await axios.put(`${API_URL}/comments/${commentId}`, { content: updatedContent }, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -126,10 +126,10 @@ export const editMovieComment = async (commentId, updatedContent) => {
 
 //delete comment
 export const deleteMovieComment = async (commentId) => {
+    const token = localStorage.getItem('token');
     try {
-        const token = localStorage.getItem('token');
         console.log('Token utilisé pour l\'authentification:', token);
-        const response = await axios.delete(`${API_URL}/comments/${commentId}`, {}, {
+        const response = await axios.delete(`${API_URL}/comments/${commentId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

@@ -168,7 +168,7 @@ export default {
 
       try {
         const response = await editMovieComment(
-          Number(this.commentToEdit._id),
+          this.commentToEdit._id,
           this.updatedCommentContent,
         )
         console.log('Commentaire modifié avec succès:', response)
