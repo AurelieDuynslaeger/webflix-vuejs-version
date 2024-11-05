@@ -36,6 +36,9 @@ export default {
 
   async mounted() {
     const movieId = this.$route.params.id
+    this.currentUserId = await getCurrentUser()
+    console.log(this.currentUserId)
+
     try {
       // Récupérer les détails du film
       this.movie = await fetchMovieDetails(movieId)
@@ -43,9 +46,10 @@ export default {
       this.similars = await fetchMovieSimilar(movieId)
       this.favorites = await getFavorites(movieId)
       this.comments = await getAllMovieComments(Number(movieId))
-      this.currentUserId = await getCurrentUser()
 
       console.log(Array.from(this.comments))
+
+      this.debugComments()
 
       // Vérifier si le film est dans les favoris
       this.isFavorite = this.favorites.includes(Number(movieId))
@@ -109,6 +113,10 @@ export default {
       }
     },
     async submitComment() {
+      if (!this.currentUserId) {
+        console.error('Utilisateur non connecté')
+        return
+      }
       const filmId = Number(this.$route.params.id)
       console.log(this.newComment)
 
@@ -143,12 +151,16 @@ export default {
     },
 
     isCommentAuthor(userId) {
-      return userId === this.currentUserId
+      if (!this.currentUserId) {
+        return false
+      }
+      console.log('Current User ID:', this.currentUserId.id)
+      return this.currentUserId.id === userId
     },
 
     editComment(comment) {
       console.log('Éditer le commentaire:', comment)
-      this.commentToEdit = comment // Stocker le commentaire à éditer
+      this.commentToEdit = comment
       this.updatedCommentContent = comment.content
     },
     async submitEdit() {
@@ -190,6 +202,18 @@ export default {
       } catch (error) {
         console.error('Erreur lors de la suppression du commentaire:', error)
       }
+    },
+    debugComments() {
+      this.comments.forEach(comment => {
+        console.log('Comment User ID:', comment.user._id)
+        console.log('Current User ID:', this.currentUserId.id) // Utilise .id ici
+        console.log(
+          'Is Comment Author:',
+          this.isCommentAuthor(comment.user._id),
+        )
+        console.log('Comment User ID Type:', typeof comment.user._id)
+        console.log('Current User ID Type:', typeof this.currentUserId)
+      })
     },
   },
 }
@@ -371,30 +395,35 @@ export default {
             <li
               v-for="comment in comments"
               :key="comment._id"
-              class="text-white relative flex justify-between items-center p-4 rounded-md bg-[#311065] border border-1 border-[#5b21b6]"
+              class="text-white relative p-4 rounded-md bg-[#311065] border border-1 border-[#5b21b6]"
             >
-              <p class="text-xl">{{ comment.content }}</p>
-              <p
-                class="border border-1 border-[#5b21b6] rounded-full px-2 py-1"
-              >
-                {{ comment.user.username }}
-              </p>
-              <span class="absolute bottom-1 right-3 text-xs font-bold">{{
-                formatCommentDate(comment.createdAt)
-              }}</span>
+              <div class="flex items-center justify-between">
+                <p class="text-xl">{{ comment.content }}</p>
+                <p
+                  class="border border-1 border-[#5b21b6] rounded-full px-2 py-1"
+                >
+                  {{ comment.user.username }}
+                </p>
+                <span class="absolute bottom-1 left-3 text-xs font-bold">{{
+                  formatCommentDate(comment.createdAt)
+                }}</span>
+              </div>
 
-              <div v-if="isCommentAuthor(comment.user.id)" class="ml-4">
+              <div
+                v-if="comment.user && isCommentAuthor(comment.user._id)"
+                class="ml-4 flex gap-1 justify-end items-center"
+              >
                 <button
                   @click="editComment(comment)"
-                  class="bg-yellow-500 text-black px-2 py-1 rounded-md"
+                  class="text-white px-2 py-1 rounded-md flex items-center justify-center"
                 >
-                  Éditer
+                  <i class="mr-2 pi pi-pen-to-square"></i>
                 </button>
                 <button
                   @click="deleteComment(comment._id)"
-                  class="bg-red-500 text-white px-2 py-1 rounded-md"
+                  class="text-white px-2 py-1 rounded-md flex items-center justify-center"
                 >
-                  Supprimer
+                  <i class="mr-2 pi pi-trash"></i>
                 </button>
               </div>
             </li>
