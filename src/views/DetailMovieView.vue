@@ -221,7 +221,7 @@ export default {
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div v-else class="h-fit flex flex-col justify-center w-3/4 m-auto">
+  <div v-else class="h-fit flex flex-col justify-center w-3/4 m-auto mt-24">
     <div class="px-4 sm:px-0 text-left flex items-center justify-between">
       <div class="w-1/2 relative">
         <h3

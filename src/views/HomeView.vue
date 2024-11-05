@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import LandingView from '@/components/LandingView.vue'
 </script>
 
 <template>
-  <main class="w-full h-full flex items-center justify-center">
-    <TheWelcome />
-  </main>
+  <div class="w-full h-auto flex items-center justify-center">
+    <LandingView />
+  </div>
 </template>

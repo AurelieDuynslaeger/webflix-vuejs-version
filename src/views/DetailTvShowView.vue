@@ -38,7 +38,7 @@ export default {
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div v-else class="w-full text-foreground">
+  <div v-else class="w-full text-foreground mt-24">
     <!-- Bannière Principale -->
     <section
       class="relative h-96 flex items-end justify-center text-center"

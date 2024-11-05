@@ -39,16 +39,16 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col items-center justify-center gap-y-10">
+  <div class="w-full h-fit flex flex-col items-center justify-center mt-24">
     <h1 class="text-foreground text-6xl font-Bebas">Inscription</h1>
-    <p class="text-xl w-[50%] leading-10 font-Source text-center">
+    <p class="text-xl w-[50%] font-Source text-center">
       Rejoignez notre communauté et commencez votre aventure cinématographique.
     </p>
-    <p class="text-xl w-[50%] leading-10 font-Source text-center">
+    <p class="text-xl w-[50%] font-Source text-center">
       Créez un compte pour accéder à une vaste bibliothèque de films et de
       séries.
     </p>
-    <div class="flex flex-col justify-center px-6 py-12 lg:px-8 w-1/2">
+    <div class="flex flex-col justify-center px-6 py-4 lg:px-8 w-1/2">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           class="mx-auto h-16 w-auto"
@@ -56,7 +56,7 @@ const handleSubmit = async () => {
           alt="Your Company"
         />
         <h2
-          class="mt-10 text-center text-2xl font-Bebas leading-9 tracking-tight text-foreground"
+          class="mt-6 text-center text-2xl font-Bebas leading-9 tracking-tight text-foreground"
         >
           Créez votre compte
         </h2>
@@ -133,7 +133,7 @@ const handleSubmit = async () => {
           <div>
             <button
               type="submit"
-              class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-base font-Source leading-6 text-white shadow-sm hover:bg-chart-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              class="flex w-full justify-center rounded-md bg-primary p-4 text-base font-Source leading-6 text-white shadow-sm hover:bg-chart-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               S'inscrire
             </button>

@@ -10,6 +10,7 @@ import DetailMovieView from '@/views/DetailMovieView.vue'
 import DetailsActorView from '@/views/DetailsActorView.vue'
 import TvShowsView from '@/views/TvShowsView.vue'
 import DetailTvShowView from '@/views/DetailTvShowView.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,7 @@ const router = createRouter({
     },
     { path: '/about', name: 'about', component: AboutView },
     { path: '/account', name: 'account', component: AccountView },
+    { path: '/login', name: 'login', component: LoginView },
   ]
 })
 
