@@ -31,6 +31,7 @@ export default {
       currentUserId: null,
       commentToEdit: null,
       updatedCommentContent: '',
+      commentContent: '',
     }
   },
 
@@ -162,11 +163,13 @@ export default {
       console.log('Éditer le commentaire:', comment)
       this.commentToEdit = comment
       this.updatedCommentContent = comment.content
+      this.commentContent = comment.content
     },
     async submitEdit() {
       if (!this.commentToEdit) return
 
       try {
+        this.updatedCommentContent = this.commentContent
         const response = await editMovieComment(
           this.commentToEdit._id,
           this.updatedCommentContent,
@@ -183,9 +186,14 @@ export default {
 
         this.commentToEdit = null
         this.updatedCommentContent = ''
+        this.commentContent = ''
       } catch (error) {
         console.error('Erreur lors de la modification du commentaire:', error)
       }
+    },
+    cancelEdit() {
+      this.commentToEdit = null
+      this.commentContent = ''
     },
 
     async deleteComment(commentId) {
@@ -364,31 +372,42 @@ export default {
       </h4>
       <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         <form
-          @submit.prevent="submitComment"
+          @submit.prevent="commentToEdit ? submitEdit : submitComment"
           class="flex flex-col justify-center items-center"
         >
           <textarea
-            v-model="newComment"
-            placeholder="Écrivez votre commentaire ici..."
+            v-model="commentContent"
+            :placeholder="
+              commentToEdit
+                ? 'Modifiez votre commentaire...'
+                : 'Écrivez votre commentaire ici...'
+            "
             required
             class="p-4 w-1/2 rounded-lg"
           ></textarea>
           <button
             type="submit"
+            @click="submitEdit"
             class="w-1/4 bg-primary text-white p-2 m-2 rounded-lg"
           >
-            Ajouter le commentaire
+            {{
+              commentToEdit
+                ? 'Soumettre la modification'
+                : 'Ajouter le commentaire'
+            }}
+          </button>
+          <button
+            v-if="commentToEdit"
+            type="button"
+            @click="cancelEdit"
+            class="w-1/4 bg-gray-500 text-white p-2 m-2 rounded-lg"
+          >
+            Annuler
           </button>
         </form>
 
         <div v-if="comments.length === 0">
           <p>Aucun commentaire pour ce film.</p>
-        </div>
-        <div v-if="commentToEdit">
-          <h3>Modification de commentaire :</h3>
-          <textarea v-model="updatedCommentContent"></textarea>
-          <button @click="submitEdit">Soumettre</button>
-          <button @click="commentToEdit = null">Annuler</button>
         </div>
         <div v-else class="mt-8 flex flex-col justify-center w-2/3 m-auto">
           <ul class="flex flex-col gap-2 justify-center">
