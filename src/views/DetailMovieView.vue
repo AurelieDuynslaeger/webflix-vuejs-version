@@ -224,9 +224,14 @@ export default {
 <template>
   <div v-if="isLoading">Chargement...</div>
   <div v-else-if="error">{{ error }}</div>
-  <div v-else class="h-fit flex flex-col justify-center w-3/4 m-auto mt-24">
-    <div class="px-4 sm:px-0 text-left flex items-center justify-between">
-      <div class="w-1/2 relative">
+  <div
+    v-else
+    class="h-fit flex flex-col justify-center w-full lg:w-3/4 m-auto mt-28"
+  >
+    <div
+      class="px-4 sm:px-0 text-left flex flex-col lg:flex-row items-center justify-between"
+    >
+      <div class="w-full lg:w-1/2 relative">
         <h3
           class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Bebas"
         >
@@ -269,7 +274,7 @@ export default {
       </div>
     </div>
     <div class="mt-6 border-t border-chart-4">
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <!-- Colonne 1 -->
         <div class="col-span-1 p-4">
           <!-- Date de Sortie -->
@@ -359,7 +364,7 @@ export default {
         </span>
       </div>
     </div>
-    <div class="w-4/5 m-auto">
+    <div class="w-full lg:w-4/5 lg:m-auto">
       <h4
         class="text-2xl font-medium leading-6 text-primary font-Bebas text-center"
       >
@@ -378,12 +383,12 @@ export default {
                 : 'Écrivez votre commentaire ici...'
             "
             required
-            class="p-4 w-1/2 rounded-lg"
+            class="p-4 w-3/4 lg:w-1/2 rounded-lg"
           ></textarea>
           <button
             type="submit"
             @click="submitEdit"
-            class="w-1/4 bg-primary text-white p-2 m-2 rounded-lg"
+            class="w-1/2 lg:w-1/4 bg-primary text-white p-2 m-2 rounded-lg"
           >
             {{
               commentToEdit
@@ -404,23 +409,27 @@ export default {
         <div v-if="comments.length === 0">
           <p>Aucun commentaire pour ce film.</p>
         </div>
-        <div v-else class="mt-8 flex flex-col justify-center w-2/3 m-auto">
+        <div
+          v-else
+          class="mt-8 flex flex-col justify-center w-full p-2 lg:w-2/3 m-auto"
+        >
           <ul class="flex flex-col gap-2 justify-center">
             <li
               v-for="comment in comments"
               :key="comment._id"
-              class="text-white relative p-4 rounded-md bg-[#311065] border border-1 border-[#5b21b6]"
+              class="text-gray-900 relative p-4 rounded-md bg-white bg-opacity-30 backdrop-blur-md"
             >
               <div class="flex items-center justify-between">
                 <p class="text-xl">{{ comment.content }}</p>
                 <p
-                  class="border border-1 border-[#5b21b6] rounded-full px-2 py-1"
+                  class="border border-1 border-gray-400 rounded-full px-2 py-1"
                 >
                   {{ comment.user.username }}
                 </p>
-                <span class="absolute bottom-1 left-3 text-xs font-bold">{{
-                  formatCommentDate(comment.createdAt)
-                }}</span>
+                <span
+                  class="absolute bottom-1 left-3 text-xs font-bold text-gray-400"
+                  >{{ formatCommentDate(comment.createdAt) }}</span
+                >
               </div>
 
               <div
@@ -429,13 +438,13 @@ export default {
               >
                 <button
                   @click="editComment(comment)"
-                  class="text-white px-2 py-1 rounded-md flex items-center justify-center"
+                  class="text-gray-400 px-2 py-1 rounded-md flex items-center justify-center"
                 >
                   <i class="mr-2 pi pi-pen-to-square"></i>
                 </button>
                 <button
                   @click="deleteComment(comment._id)"
-                  class="text-white px-2 py-1 rounded-md flex items-center justify-center"
+                  class="text-gray-400 px-2 py-1 rounded-md flex items-center justify-center"
                 >
                   <i class="mr-2 pi pi-trash"></i>
                 </button>

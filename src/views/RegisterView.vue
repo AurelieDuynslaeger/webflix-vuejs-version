@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import { signup } from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
 
@@ -37,25 +37,36 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="w-full h-fit flex flex-col items-center justify-center mt-36">
-    <h1 class="text-4xl w-[50%] font-Source text-center uppercase">
+  <div
+    class="w-full h-fit flex flex-col items-center justify-center mt-16 lg:mt-36"
+  >
+    <RouterLink
+      to="/"
+      class="text-sm/6 font-semibold text-white rounded-sm p-2"
+    >
+      <span aria-hidden="true">←</span>
+      Retour
+    </RouterLink>
+    <h1
+      class="text-base lg:text-4xl w-full lg:w-[50%] font-Source text-center uppercase"
+    >
       Rejoignez notre communauté et commencez votre aventure cinématographique.
     </h1>
-    <p class="text-xl w-[50%] font-Source text-center">
+    <p class="text-sm lg:text-xl w-3/4 lg:w-[50%] font-Source text-center">
       Créez un compte pour accéder à une vaste bibliothèque de films et de
       séries.
     </p>
-    <div class="flex flex-col justify-center px-6 py-4 lg:px-8 w-1/2">
+    <div class="flex flex-col justify-center px-6 py-4 lg:px-8 w-full lg:w-1/2">
       <div
         class="sm:mx-auto sm:w-full sm:max-w-sm flex items-center justify-center gap-2"
       >
-        <i class="m-2 pi pi-arrow-circle-down text-xl"></i>
+        <i class="m-2 pi pi-arrow-circle-down text-base lg:text-xl"></i>
         <h2
-          class="mt-6 text-center text-2xl font-Bebas leading-9 tracking-tight text-foreground"
+          class="mt-6 text-center text-base lg:text-2xl font-Bebas leading-9 tracking-tight text-foreground"
         >
           c'est par ici
         </h2>
-        <i class="m-2 pi pi-arrow-circle-down text-xl"></i>
+        <i class="m-2 pi pi-arrow-circle-down text-base lg:text-xl"></i>
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg text-foreground">

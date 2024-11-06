@@ -16,7 +16,7 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.posterPath}`
 <template>
   <router-link :to="{ name: 'DetailTvShow', params: { id: props.id } }">
     <div
-      class="max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-primary border-2 border-border"
+      class="max-w-xs lg:max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-primary border-2 border-border"
     >
       <img
         :src="imageUrl"

@@ -21,9 +21,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mt-24 w-screen">
+  <div class="mt-14 lg:mt-28 w-screen">
     <h1
-      class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
+      class="text-3xl lg:text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
     >
       Films Populaires
     </h1>

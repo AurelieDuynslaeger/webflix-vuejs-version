@@ -25,18 +25,20 @@ export default {
 </script>
 
 <template>
-  <div class="bg-background container m-auto mt-24 scrollbar-custom">
+  <div class="bg-background container m-auto mt-14 p-4 lg:mt-28">
     <h1
-      class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
+      class="text-3xl lg:text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
     >
       Mon Compte
     </h1>
     <div>
-      <h2 class="text-3xl font-bold mb-8 py-8 text-foreground font-Bebas">
+      <h2
+        class="text-xl lg:text-3xl font-bold mb-8 py-8 text-foreground font-Bebas"
+      >
         Mes Favoris
       </h2>
 
-      <div class="grid grid-cols-5 gap-4">
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <div v-for="movie in favoriteMovies" :key="movie.id">
           <img
             :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"

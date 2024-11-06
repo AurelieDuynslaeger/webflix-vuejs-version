@@ -34,7 +34,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="p-8 text-foreground">
+  <div class="p-8 text-foreground mt-20 lg:mt-36">
     <div class="flex flex-col items-center">
       <img
         :src="
@@ -59,7 +59,7 @@ onMounted(async () => {
       <div class="mt-4">
         <p
           v-if="actor.biography"
-          class="text-left max-w-6xl leading-10 text-xl font-Source"
+          class="text-left max-w-6xl leading-10 text-base lg:text-xl font-Source"
         >
           {{ actor.biography }}
         </p>
@@ -67,8 +67,10 @@ onMounted(async () => {
           Biographie indisponible pour cet acteur.
         </p>
       </div>
-      <h2 class="text-5xl m-16 font-Bebas">Connu(e) aussi pour :</h2>
-      <div class="grid grid-cols-6 gap-2">
+      <h2 class="text-2xl lg:text-5xl m-16 font-Bebas">
+        Connu(e) aussi pour :
+      </h2>
+      <div class="grid grid-cols-2 lg:grid-cols-6 gap-2">
         <div
           v-for="movie in movies"
           :key="movie.id"

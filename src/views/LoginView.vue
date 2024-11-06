@@ -39,9 +39,24 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="h-screen flex flex-col items-center justify-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm text-foreground"
+    class="h-screen flex flex-col items-center justify-center sm:mx-auto sm:w-full sm:max-w-sm text-foreground"
   >
-    <form class="space-y-6 w-full" @submit="handleSubmit">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img
+        class="mx-auto h-20 w-auto"
+        src="../assets/webflix_logo.svg"
+        alt="Your Company"
+      />
+      <h2
+        class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-200"
+      >
+        Bienvenue à nouveau !
+      </h2>
+      <p class="text-center text-xl/9 font-bold tracking-tight text-gray-200">
+        Connectez vous
+      </p>
+    </div>
+    <form class="mt-8 space-y-6 w-3/4 lg:w-full" @submit="handleSubmit">
       <div>
         <label for="email" class="block text-base font-Source leading-6"
           >Email address</label

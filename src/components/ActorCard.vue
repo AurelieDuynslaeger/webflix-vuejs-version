@@ -14,12 +14,12 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.profilePath}`
 <template>
   <router-link
     :to="{ name: 'actorDetails', params: { id: Number(actorId) } }"
-    class="w-[450px] flex flex-col items-center bg-background border border-border rounded-lg shadow md:flex-row md:max-w-xl hover:bg-border"
+    class="w-[300px] lg:w-[450px] flex flex-col items-center bg-background border border-border rounded-lg shadow md:flex-row md:max-w-xl hover:bg-border"
   >
     <img
       :src="imageUrl"
       :alt="`Photo de ${props.name}`"
-      class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg filter grayscale"
+      class="object-cover w-full rounded-t-lg h-44 lg:h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg filter grayscale"
     />
 
     <div class="flex flex-col justify-between p-4 leading-normal">
