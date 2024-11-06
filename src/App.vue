@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
   <div class="h-full w-screen bg-background text-foreground">
-    <header class="absolute inset-x-0 top-0 z-50 bg-background">
+    <header class="absolute inset-x-0 top-0 z-50 bg-inherit">
       <nav
         class="flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -138,11 +138,7 @@ onMounted(() => {
           </button>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <RouterLink
-            v-if="!isAuthenticated"
-            to="/login"
-            :class="'hidden'"
-            class="text-sm/6 font-semibold text-white"
+          <RouterLink to="/login" class="text-sm/6 font-semibold text-white"
             >Log in <span aria-hidden="true">&rarr;</span></RouterLink
           >
         </div>

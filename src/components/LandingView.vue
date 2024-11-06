@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 </script>
 <template>
-  <div class="relative isolate px-6 pt-14 lg:px-8 h-screen">
+  <div class="relative isolate px-6 pt-14 lg:px-4 h-[70vh]">
     <div
       class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
       aria-hidden="true"
@@ -34,7 +34,7 @@ import { RouterLink } from 'vue-router'
     <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
       <div class="hidden sm:mb-8 sm:flex sm:justify-center">
         <div
-          class="relative rounded-full px-3 py-1 text-sm/6 text-white ring-1 ring-primary hover:ring-chart-4"
+          class="relative rounded-full px-6 py-2 text-xl/6 text-white ring-1 ring-primary hover:ring-chart-4"
         >
           Partagez votre passion pour la filmographie
         </div>
@@ -64,7 +64,7 @@ import { RouterLink } from 'vue-router'
       </div>
     </div>
     <div
-      class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+      class="absolute top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
       aria-hidden="true"
     >
       <div
