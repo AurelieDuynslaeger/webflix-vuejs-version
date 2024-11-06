@@ -2,13 +2,13 @@
 import { RouterLink } from 'vue-router'
 </script>
 <template>
-  <div class="relative isolate px-6 pt-14 lg:px-4 h-[70vh]">
+  <div class="relative isolate px-6 pt-6 lg:px-4 overflow-hidden">
     <div
       class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
       aria-hidden="true"
     >
       <div
-        class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#803aed] to-[#b68bfa] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+        class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] max-w-full -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#803aed] to-[#b68bfa] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
         style="
           clip-path: polygon(
             74.1% 44.1%,

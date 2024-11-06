@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-background container m-auto mt-24">
+  <div class="bg-background container m-auto mt-24 scrollbar-custom">
     <h1
       class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
     >

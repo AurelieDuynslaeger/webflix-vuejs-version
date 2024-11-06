@@ -20,7 +20,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="mt-24">
+  <div class="mt-24 scrollbar-custom">
     <h1
       class="text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
     >
