@@ -41,7 +41,6 @@ export default {
     console.log(this.currentUserId)
 
     try {
-      // Récupérer les détails du film
       this.movie = await fetchMovieDetails(movieId)
       this.trailers = await fetchMovieVideos(movieId)
       this.similars = await fetchMovieSimilar(movieId)
@@ -52,7 +51,6 @@ export default {
 
       this.debugComments()
 
-      // Vérifier si le film est dans les favoris
       this.isFavorite = this.favorites.includes(Number(movieId))
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
@@ -89,21 +87,18 @@ export default {
       console.log(`Toggle Favorite pour le film ID: ${filmId}`)
       try {
         if (this.isFavorite) {
-          // Retirer des favoris
           await removeMovieFromFavorites(filmId)
           console.log('Film retiré des favoris')
           this.isFavorite =
             this.favorites.find(favoriteId => favoriteId === filmId) !==
             undefined
         } else {
-          // Ajouter aux favoris
           if (!this.favorites.includes(Number(filmId))) {
             await addMovieToFavorites(filmId)
             console.log('Film ajouté aux favoris')
             this.favorites.push(filmId)
           }
         }
-        // Mettre à jour l'état de isFavorite
         this.isFavorite = !this.isFavorite
         console.log(`État après modification: ${this.isFavorite}`)
       } catch (error) {
@@ -176,7 +171,7 @@ export default {
         )
         console.log('Commentaire modifié avec succès:', response)
 
-        // Mettre à jour la liste des commentaires
+        //mettre à jour la liste des commentaires
         const index = this.comments.findIndex(
           comment => comment._id === this.commentToEdit._id,
         )

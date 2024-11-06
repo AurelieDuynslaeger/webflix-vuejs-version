@@ -1,30 +1,41 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { login } from '../services/webflixApi'
 import { message } from 'ant-design-vue'
+import { useStore } from 'vuex'
 import 'ant-design-vue/dist/reset.css'
 
 const email = ref('')
 const password = ref('')
 const router = useRouter()
-
+const isLoading = ref(false)
+const emailRef = ref(null)
+const store = useStore()
 const handleSubmit = async e => {
-  e.preventDefault() //Empêche le rechargement de la page
-
+  e.preventDefault()
+  isLoading.value = true
   try {
     const response = await login(email.value, password.value)
-    localStorage.setItem('token', response.data.token)
+    store.dispatch('login', response.data.token)
     message.success('Connexion réussie !')
     router.push('/account')
   } catch (error) {
     let errorMessage = "Une erreur s'est produite lors de la connexion."
     if (error.response && error.response.status === 400) {
       errorMessage = 'Email ou mot de passe incorrect.'
+    } else if (error.response && error.response.status >= 500) {
+      errorMessage = 'Problème de serveur, veuillez réessayer plus tard.'
     }
     message.error(errorMessage)
+  } finally {
+    isLoading.value = false
   }
 }
+
+onMounted(() => {
+  emailRef.value?.focus()
+})
 </script>
 <template>
   <div
@@ -38,6 +49,7 @@ const handleSubmit = async e => {
         <div class="mt-2">
           <input
             v-model="email"
+            ref="emailRef"
             id="email"
             name="email"
             type="email"
@@ -78,8 +90,10 @@ const handleSubmit = async e => {
         <button
           type="submit"
           class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-base font-Source leading-6 text-white shadow-sm hover:bg-chart-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          :disabled="isLoading"
         >
-          Sign in
+          <span v-if="!isLoading">Sign in</span>
+          <span v-else>Loading...</span>
         </button>
       </div>
     </form>

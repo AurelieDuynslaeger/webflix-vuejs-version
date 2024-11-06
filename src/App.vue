@@ -1,31 +1,28 @@
 <script setup>
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { ref, onMounted, watch } from 'vue'
-
-const isAuthenticated = ref(false)
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
 onMounted(() => {
   isAuthenticated.value = !!localStorage.getItem('token')
 })
 import 'primeicons/primeicons.css'
 
+const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
+const isAuthenticated = computed(() => store.getters.isAuthenticated)
 const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('favorites')
-  isAuthenticated.value = false
-  // Redirige l'utilisateur si nécessaire
+  store.dispatch('logout')
   router.push('/')
 }
 
-watch(
-  () => localStorage.getItem('token'),
-  newValue => {
-    isAuthenticated.value = !!newValue
-  },
-)
+onMounted(() => {
+  if (localStorage.getItem('token')) {
+    store.dispatch('login', localStorage.getItem('token'))
+  }
+})
 </script>
 
 <template>
@@ -34,32 +31,20 @@ watch(
       class="flex items-center justify-between p-6 lg:px-8"
       aria-label="Global"
     >
-      <div class="flex lg:flex-1">
-        <RouterLink
-          to="/"
-          :class="{
-            'text-foreground font-bold': route.path === '/',
-            'hover:scale-125': route.path !== '/',
-          }"
-          class="flex items-center justify-start gap-1 rounded-md p-2"
-        >
-          <span class="sr-only">Webflix</span>
-          <img class="h-16 w-auto" src="./assets/webflix_logo.svg" alt="" />
-        </RouterLink>
-      </div>
+      <RouterLink
+        to="/"
+        :class="{
+          'text-foreground font-bold': route.path === '/',
+          'hover:scale-125': route.path !== '/',
+        }"
+        class="flex items-center justify-start gap-1 rounded-md p-2"
+      >
+        <span class="sr-only">Webflix</span>
+        <img class="h-16 w-auto" src="./assets/webflix_logo.svg" alt="" />
+      </RouterLink>
 
       <!-- Afficher uniquement le menu pour un utilisateur non authentifié -->
       <div class="hidden lg:flex lg:gap-x-12" v-if="!isAuthenticated">
-        <RouterLink
-          to="/"
-          :class="{
-            'text-foreground font-bold': route.path === '/',
-            'hover:text-primary hover:bg-slate-300': route.path !== '/',
-          }"
-          class="flex items-center justify-start gap-1 rounded-md p-2"
-        >
-          <i class="mr-2 pi pi-home"></i> Home
-        </RouterLink>
         <RouterLink
           to="/login"
           :class="{
