@@ -226,7 +226,7 @@ export default {
   <div v-else-if="error">{{ error }}</div>
   <div
     v-else
-    class="h-fit flex flex-col justify-center w-full lg:w-3/4 m-auto mt-28"
+    class="h-fit flex flex-col justify-center w-full lg:w-3/4 m-auto mt-28 lg:mt-40"
   >
     <div
       class="px-4 sm:px-0 text-left flex flex-col lg:flex-row items-center justify-between"
