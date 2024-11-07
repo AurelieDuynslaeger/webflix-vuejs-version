@@ -101,4 +101,4 @@ Les routes de commentaires et de favoris sont protégées par un **middleware d'
 
 ## Démo
 
-ici
+Tu peux voir la démo en ligne de l'application [ici](https://webflix-vuejs-version.vercel.app/).
