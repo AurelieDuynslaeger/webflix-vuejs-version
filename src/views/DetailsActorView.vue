@@ -27,7 +27,6 @@ onMounted(async () => {
     // Récupérer les crédits de films de l'acteur
     const moviesResponse = await fetchActorMoviesCredits(actorId)
     movies.value = moviesResponse
-    console.log(movies)
   } catch (error) {
     console.error('Error fetching actor details or movies:', error)
   }

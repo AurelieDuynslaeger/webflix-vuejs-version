@@ -14,7 +14,6 @@ export const signup = async (username, email, password) => {
 
 export const login = async (email, password) => {
     try {
-        console.log('Données envoyées pour login:', { email, password });
         const response = await axios.post(`${API_URL}/auth/login`, { email, password });
         return response;
     } catch (error) {
@@ -26,7 +25,6 @@ export const login = async (email, password) => {
 export const addMovieToFavorites = async (filmId) => {
     try {
         const token = localStorage.getItem('token');
-        console.log('Token utilisé pour l\'authentification:', token);
         const response = await axios.post(`${API_URL}/user/favorites/${filmId}`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -82,7 +80,6 @@ export const removeMovieFromFavorites = async (filmId) => {
 export const addMovieComment = async (filmId, comment) => {
     try {
         const token = localStorage.getItem('token');
-        console.log('Token utilisé pour l\'authentification:', token);
         const response = await axios.post(`${API_URL}/comments/${filmId}`, { comment }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -106,7 +103,6 @@ export const addMovieComment = async (filmId, comment) => {
 export const editMovieComment = async (commentId, updatedContent) => {
     try {
         const token = localStorage.getItem('token');
-        console.log('Token utilisé pour l\'authentification:', token);
         const response = await axios.put(`${API_URL}/comments/${commentId}`, { content: updatedContent }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -128,7 +124,6 @@ export const editMovieComment = async (commentId, updatedContent) => {
 export const deleteMovieComment = async (commentId) => {
     const token = localStorage.getItem('token');
     try {
-        console.log('Token utilisé pour l\'authentification:', token);
         const response = await axios.delete(`${API_URL}/comments/${commentId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -149,7 +144,6 @@ export const deleteMovieComment = async (commentId) => {
 export const getAllMovieComments = async (filmId) => {
     try {
         const token = localStorage.getItem('token');
-        console.log('Token utilisé pour l\'authentification:', token);
         const response = await axios.get(`${API_URL}/comments/${filmId}/comments`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -169,10 +163,6 @@ export const getAllMovieComments = async (filmId) => {
 export const getCurrentUser = async () => {
     try {
         const token = localStorage.getItem('token');
-        console.log('Token utilisé pour l\'authentification:', token);
-        console.log(localStorage.getItem('token'));
-
-
         const response = await axios.get(`${API_URL}/user/current-user`, {
             headers: {
                 'Authorization': `Bearer ${token}`

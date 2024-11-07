@@ -15,11 +15,6 @@ const handleSubmit = async () => {
     alert('Les mots de passe ne correspondent pas !')
     return
   }
-  console.log('Inscription:', {
-    username: username.value,
-    email: email.value,
-    password: password.value,
-  })
 
   try {
     const response = await signup(username.value, email.value, password.value)

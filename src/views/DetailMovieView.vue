@@ -49,7 +49,6 @@ export default {
   async mounted() {
     const movieId = this.$route.params.id
     this.currentUserId = await getCurrentUser()
-    console.log(this.currentUserId)
 
     try {
       this.movie = await fetchMovieDetails(movieId)
@@ -57,11 +56,6 @@ export default {
       this.similars = await fetchMovieSimilar(movieId)
       this.favorites = await getFavorites(movieId)
       this.comments = await getAllMovieComments(Number(movieId))
-
-      console.log(Array.from(this.comments))
-
-      this.debugComments()
-
       this.isFavorite = this.favorites.includes(Number(movieId))
     } catch (error) {
       this.error = 'Erreur lors du chargement des données.'
@@ -95,23 +89,19 @@ export default {
     },
     async toggleFavorite() {
       const filmId = Number(this.$route.params.id)
-      console.log(`Toggle Favorite pour le film ID: ${filmId}`)
       try {
         if (this.isFavorite) {
           await removeMovieFromFavorites(filmId)
-          console.log('Film retiré des favoris')
           this.isFavorite =
             this.favorites.find(favoriteId => favoriteId === filmId) !==
             undefined
         } else {
           if (!this.favorites.includes(Number(filmId))) {
             await addMovieToFavorites(filmId)
-            console.log('Film ajouté aux favoris')
             this.favorites.push(filmId)
           }
         }
         this.isFavorite = !this.isFavorite
-        console.log(`État après modification: ${this.isFavorite}`)
       } catch (error) {
         this.error = this.isFavorite
           ? 'Erreur lors du retrait des favoris.'
@@ -126,13 +116,9 @@ export default {
         return
       }
       const filmId = Number(this.$route.params.id)
-      console.log(this.newComment)
 
       try {
         const response = await addMovieComment(filmId, this.newComment)
-        console.log('Commentaire ajouté avec succès:', response)
-
-        console.log('this.comments avant le push:', this.comments)
         this.comments.push(response.comment)
         this.newComment = ''
       } catch (error) {
@@ -162,7 +148,6 @@ export default {
       if (!this.currentUserId) {
         return false
       }
-      console.log('Current User ID:', this.currentUserId.id)
       return this.currentUserId.id === userId
     },
     openEditModal(comment) {
@@ -172,7 +157,6 @@ export default {
     },
 
     editComment(comment) {
-      console.log('Éditer le commentaire:', comment)
       this.commentToEdit = comment
       this.updatedCommentContent = comment.content
     },
@@ -185,8 +169,6 @@ export default {
           this.commentToEdit._id,
           this.updatedCommentContent,
         )
-        console.log('Commentaire modifié avec succès:', response)
-
         //mettre à jour la liste des commentaires
         const index = this.comments.findIndex(
           comment => comment._id === this.commentToEdit._id,
@@ -219,22 +201,9 @@ export default {
         this.comments = this.comments.filter(
           comment => comment._id !== commentId,
         )
-        console.log('Commentaire supprimé avec succès')
       } catch (error) {
         console.error('Erreur lors de la suppression du commentaire:', error)
       }
-    },
-    debugComments() {
-      this.comments.forEach(comment => {
-        console.log('Comment User ID:', comment.user._id)
-        console.log('Current User ID:', this.currentUserId.id) // Utilise .id ici
-        console.log(
-          'Is Comment Author:',
-          this.isCommentAuthor(comment.user._id),
-        )
-        console.log('Comment User ID Type:', typeof comment.user._id)
-        console.log('Current User ID Type:', typeof this.currentUserId)
-      })
     },
   },
 }
