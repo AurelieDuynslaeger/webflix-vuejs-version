@@ -354,7 +354,7 @@ export default {
                 :src="
                   similar.poster_path
                     ? `https://image.tmdb.org/t/p/w500/${similar.poster_path}`
-                    : 'path/to/default_image.jpg'
+                    : './assets/unavailable.png'
                 "
                 :alt="similar.original_title"
                 class="rounded-lg mb-4 w-24 h-24 object-cover"
