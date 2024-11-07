@@ -32,7 +32,18 @@ export default {
       commentToEdit: null,
       updatedCommentContent: '',
       commentContent: '',
+      showEditModal: false,
     }
+  },
+  watch: {
+    showEditModal(newValue) {
+      if (newValue) {
+        // Place le focus sur le textarea lorsque la modale s'ouvre
+        this.$nextTick(() => {
+          this.$refs.editTextarea.focus()
+        })
+      }
+    },
   },
 
   async mounted() {
@@ -108,6 +119,7 @@ export default {
         console.error(this.error, error)
       }
     },
+
     async submitComment() {
       if (!this.currentUserId) {
         console.error('Utilisateur non connecté')
@@ -153,12 +165,16 @@ export default {
       console.log('Current User ID:', this.currentUserId.id)
       return this.currentUserId.id === userId
     },
+    openEditModal(comment) {
+      this.commentContent = comment.content
+      this.commentToEdit = comment
+      this.showEditModal = true
+    },
 
     editComment(comment) {
       console.log('Éditer le commentaire:', comment)
       this.commentToEdit = comment
       this.updatedCommentContent = comment.content
-      this.commentContent = comment.content
     },
     async submitEdit() {
       if (!this.commentToEdit) return
@@ -182,6 +198,7 @@ export default {
         this.commentToEdit = null
         this.updatedCommentContent = ''
         this.commentContent = ''
+        this.showEditModal = false
       } catch (error) {
         console.error('Erreur lors de la modification du commentaire:', error)
       }
@@ -189,6 +206,7 @@ export default {
     cancelEdit() {
       this.commentToEdit = null
       this.commentContent = ''
+      this.showEditModal = false
     },
 
     async deleteComment(commentId) {
@@ -354,7 +372,7 @@ export default {
                 :src="
                   similar.poster_path
                     ? `https://image.tmdb.org/t/p/w500/${similar.poster_path}`
-                    : './assets/unavailable.png'
+                    : '/unavailable.png'
                 "
                 :alt="similar.original_title"
                 class="rounded-lg mb-4 w-24 h-24 object-cover"
@@ -372,37 +390,21 @@ export default {
       </h4>
       <div class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
         <form
-          @submit.prevent="commentToEdit ? submitEdit : submitComment"
+          @submit.prevent="submitComment"
           class="flex flex-col justify-center items-center"
         >
           <textarea
-            v-model="commentContent"
-            :placeholder="
-              commentToEdit
-                ? 'Modifiez votre commentaire...'
-                : 'Écrivez votre commentaire ici...'
-            "
+            v-model="newComment"
+            placeholder="Écrivez votre commentaire ici..."
             required
             class="p-4 w-3/4 lg:w-1/2 rounded-lg"
           ></textarea>
+
           <button
             type="submit"
-            @click="submitEdit"
             class="w-1/2 lg:w-1/4 bg-primary text-white p-2 m-2 rounded-lg"
           >
-            {{
-              commentToEdit
-                ? 'Soumettre la modification'
-                : 'Ajouter le commentaire'
-            }}
-          </button>
-          <button
-            v-if="commentToEdit"
-            type="button"
-            @click="cancelEdit"
-            class="w-1/4 bg-gray-500 text-white p-2 m-2 rounded-lg"
-          >
-            Annuler
+            Ajouter le commentaire
           </button>
         </form>
 
@@ -437,7 +439,7 @@ export default {
                 class="ml-4 flex gap-1 justify-end items-center"
               >
                 <button
-                  @click="editComment(comment)"
+                  @click="openEditModal(comment)"
                   class="text-gray-400 px-2 py-1 rounded-md flex items-center justify-center"
                 >
                   <i class="mr-2 pi pi-pen-to-square"></i>
@@ -451,6 +453,41 @@ export default {
               </div>
             </li>
           </ul>
+          <div
+            v-if="showEditModal"
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm z-50"
+          >
+            <div
+              class="bg-white bg-opacity-90 rounded-lg shadow-lg p-6 w-full md:w-1/2 lg:w-1/3"
+            >
+              <h2>Éditer le commentaire</h2>
+              <form
+                @submit.prevent="submitEdit"
+                class="flex flex-col items-center w-full"
+              >
+                <textarea
+                  v-model="commentContent"
+                  placeholder="Modifiez votre commentaire..."
+                  required
+                  ref="editTextarea"
+                  class="p-4 w-3/4 lg:w-full rounded-lg border-0 border-black"
+                ></textarea>
+                <button
+                  type="submit"
+                  class="w-3/4 lg:w-2/3 bg-primary text-white p-2 m-2 rounded-lg"
+                >
+                  Soumettre la modification
+                </button>
+                <button
+                  type="button"
+                  @click="cancelEdit"
+                  class="w-3/4 lg:w-2/3 bg-gray-500 text-white p-2 m-2 rounded-lg"
+                >
+                  Annuler
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
