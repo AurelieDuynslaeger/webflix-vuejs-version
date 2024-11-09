@@ -14,9 +14,13 @@ import {
   editMovieComment,
   deleteMovieComment,
 } from '@/services/webflixApi'
+import { Skeleton } from 'ant-design-vue'
 import 'primeicons/primeicons.css'
 
 export default {
+  components: {
+    ASkeleton: Skeleton,
+  },
   data() {
     return {
       movie: {},
@@ -38,7 +42,7 @@ export default {
   watch: {
     showEditModal(newValue) {
       if (newValue) {
-        // Place le focus sur le textarea lorsque la modale s'ouvre
+        //focus sur le textarea lorsque la modale s'ouvre
         this.$nextTick(() => {
           this.$refs.editTextarea.focus()
         })
@@ -209,7 +213,10 @@ export default {
 }
 </script>
 <template>
-  <div v-if="isLoading">Chargement...</div>
+  <div v-if="isLoading" class="mt-28 container m-auto">
+    <ASkeleton :active="true" :paragraph="{ rows: 4 }" />
+    <ASkeleton :active="true" :paragraph="{ rows: 4 }" />
+  </div>
   <div v-else-if="error">{{ error }}</div>
   <div
     v-else
@@ -463,4 +470,45 @@ export default {
   </div>
 </template>
 
-<style></style>
+<style>
+/*type titre et paragraphe */
+:where(.css-dev-only-do-not-override-17yhhjv).ant-skeleton.ant-skeleton-active
+  .ant-skeleton-title::after,
+:where(.css-dev-only-do-not-override-17yhhjv).ant-skeleton.ant-skeleton-active
+  .ant-skeleton-paragraph
+  > li::after {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(67, 35, 113, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  ) !important;
+  animation-name: css-dev-only-do-not-override-17yhhjv-ant-skeleton-loading;
+  animation-duration: 1.4s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  content: '';
+}
+
+/* Skeleton Avatar et d'autres éléments */
+:where(.css-dev-only-do-not-override-17yhhjv).ant-skeleton.ant-skeleton-active
+  .ant-skeleton-avatar::after,
+:where(.css-dev-only-do-not-override-17yhhjv).ant-skeleton.ant-skeleton-active
+  .ant-skeleton-button::after,
+:where(.css-dev-only-do-not-override-17yhhjv).ant-skeleton.ant-skeleton-active
+  .ant-skeleton-input::after,
+:where(.css-dev-only-do-not-override-17yhhjv).ant-skeleton.ant-skeleton-active
+  .ant-skeleton-image::after {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(67, 35, 113, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  ) !important;
+  animation-name: css-dev-only-do-not-override-17yhhjv-ant-skeleton-loading;
+  animation-duration: 1.4s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  content: '';
+}
+</style>
