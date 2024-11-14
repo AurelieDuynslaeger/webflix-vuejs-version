@@ -10,6 +10,7 @@ import TvShowsView from '@/views/TvShowsView.vue'
 import DetailTvShowView from '@/views/DetailTvShowView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LandingPage from '@/components/LandingPage.vue'
+import ResetPwdView from '@/views/ResetPwdView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,7 @@ const router = createRouter({
     },
     { path: '/account', name: 'account', component: AccountView },
     { path: '/login', name: 'login', component: LoginView },
+    { path: '/reset-password', name: 'reset-password', component: ResetPwdView },
   ]
 })
 

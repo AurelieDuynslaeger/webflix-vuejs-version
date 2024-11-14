@@ -35,36 +35,46 @@ onMounted(async () => {
 <template>
   <div class="p-8 text-foreground mt-20 lg:mt-36">
     <div class="flex flex-col items-center">
-      <img
-        :src="
-          actor.profile_path
-            ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
-            : 'path/to/default_image.jpg'
-        "
-        :alt="actor.name"
-        class="rounded-lg mb-4 w-64 h-96 object-cover"
-      />
-      <h1 class="text-5xl mb-2 font-Bebas">{{ actor.name }}</h1>
-      <p v-if="actor.place_of_birth" class="text-sm text-gray-400 font-Source">
-        {{ actor.place_of_birth }}
-      </p>
-      <p v-else class="text-sm text-gray-400 font-Source">
-        Lieu de naissance inconnu
-      </p>
-      <p class="text-md mb-4 font-Source">
-        Né le: {{ formatDate(actor.birthday) }}
-      </p>
+      <div class="container m-auto lg:flex lg:items-center lg:justify-center">
+        <div class="w-full h-full lg:w-1/3">
+          <img
+            :src="
+              actor.profile_path
+                ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
+                : 'path/to/default_image.jpg'
+            "
+            :alt="actor.name"
+            class="rounded-lg mb-4 w-full md:w-2/3 md:m-auto lg:w-64 h-full lg:h-96 object-cover"
+          />
 
-      <div class="mt-4">
-        <p
-          v-if="actor.biography"
-          class="text-left max-w-6xl leading-10 text-base lg:text-xl font-Source"
-        >
-          {{ actor.biography }}
-        </p>
-        <p v-else class="text-justify">
-          Biographie indisponible pour cet acteur.
-        </p>
+          <p
+            v-if="actor.place_of_birth"
+            class="text-sm text-gray-400 font-Source md:text-center"
+          >
+            {{ actor.place_of_birth }}
+          </p>
+          <p v-else class="text-sm text-gray-400 font-Source md:text-center">
+            Lieu de naissance inconnu
+          </p>
+          <p class="text-md mb-4 font-Source md:text-center">
+            Né(e) le: {{ formatDate(actor.birthday) }}
+          </p>
+        </div>
+
+        <div class="mt-4 w-full container m-auto lg:w-2/3">
+          <h1 class="text-5xl mb-2 font-Bebas md:text-center mt-4">
+            {{ actor.name }}
+          </h1>
+          <p
+            v-if="actor.biography"
+            class="text-left p-4 md:text-xl text-base lg:text-xl font-Source leading-loose"
+          >
+            {{ actor.biography }}
+          </p>
+          <p v-else class="text-justify">
+            Biographie indisponible pour cet acteur.
+          </p>
+        </div>
       </div>
       <h2 class="text-2xl lg:text-5xl m-16 font-Bebas">
         Connu(e) aussi pour :

@@ -3,16 +3,63 @@ import { ref } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { signup } from '@/services/webflixApi'
 import 'primeicons/primeicons.css'
+import { notification } from 'ant-design-vue'
+import 'ant-design-vue/dist/reset.css'
 
 const username = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const router = useRouter()
+const isLoading = ref(false)
 
 const handleSubmit = async () => {
+  isLoading.value = true
+
+  // Validation des champs
+  if (
+    !username.value ||
+    !email.value ||
+    !password.value ||
+    !confirmPassword.value
+  ) {
+    notification.error({
+      message: 'Erreur',
+      description: 'Veuillez remplir tous les champs.',
+    })
+    isLoading.value = false
+    return
+  }
+  // Validation du format de l'email
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  if (!emailPattern.test(email.value)) {
+    notification.error({
+      message: 'Erreur',
+      description: "L'adresse e-mail est invalide.",
+    })
+    isLoading.value = false
+    return
+  }
+
+  // Validation du mot de passe (au moins 8 caractères, une lettre, un chiffre)
+  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/
+  if (!passwordPattern.test(password.value)) {
+    notification.error({
+      message: 'Erreur',
+      description:
+        'Le mot de passe doit contenir au moins 8 caractères, une lettre et un chiffre.',
+    })
+    isLoading.value = false
+    return
+  }
+
+  // Vérification que le mot de passe et la confirmation sont identiques
   if (password.value !== confirmPassword.value) {
-    alert('Les mots de passe ne correspondent pas !')
+    notification.error({
+      message: 'Erreur',
+      description: 'Les mots de passe ne correspondent pas.',
+    })
+    isLoading.value = false
     return
   }
 
@@ -20,13 +67,27 @@ const handleSubmit = async () => {
     const response = await signup(username.value, email.value, password.value)
 
     if (response.status === 200 || response.status === 201) {
+      notification.success({
+        message: 'Succès',
+        description: response.data.message || 'Inscription réussie !',
+      })
       router.push('/')
     } else {
       throw new Error("Échec de l'inscription")
     }
   } catch (error) {
-    console.error(error.response?.data || error)
-    alert("Une erreur s'est produite lors de l'inscription : " + error.message)
+    let errorMessage = "Une erreur s'est produite lors de l'inscription."
+    if (error.response && error.response.status === 400) {
+      errorMessage = 'Ce compte existe déjà.'
+    } else if (error.response && error.response.status >= 500) {
+      errorMessage = 'Problème de serveur, veuillez réessayer plus tard.'
+    }
+    notification.error({
+      message: 'Erreur',
+      description: errorMessage,
+    })
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -135,9 +196,11 @@ const handleSubmit = async () => {
           <div>
             <button
               type="submit"
-              class="flex w-full justify-center rounded-md bg-primary p-4 text-base font-Source leading-6 text-white shadow-sm hover:bg-chart-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              class="flex w-full justify-center rounded-3xl bg-primary px-3 py-1.5 text-base font-Source leading-6 text-white shadow-sm hover:bg-chart-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              :disabled="isLoading"
             >
-              S'inscrire
+              <span v-if="!isLoading">S'inscrire</span>
+              <span v-else>Loading...</span>
             </button>
           </div>
         </form>

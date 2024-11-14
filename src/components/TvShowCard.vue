@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, onMounted, ref, watch } from 'vue'
+import { getTvFavorites } from '@/services/webflixApi'
 
 const props = defineProps({
   id: Number,
@@ -12,11 +13,37 @@ const props = defineProps({
 })
 
 const imageUrl = `https://image.tmdb.org/t/p/w500${props.posterPath}`
+
+const favorites = ref([])
+const isFavorite = ref(false)
+
+const loadFavorites = async () => {
+  try {
+    const favoriteTvShows = await getTvFavorites()
+    favorites.value = favoriteTvShows // Stocker la liste des favoris
+    checkIfFavorite() // Vérifier si le film actuel est dans les favoris
+  } catch (error) {
+    console.error('Erreur lors de la récupération des favoris:', error)
+  }
+}
+
+// Fonction pour vérifier si le film est dans les favoris
+const checkIfFavorite = () => {
+  isFavorite.value = favorites.value.includes(props.id)
+}
+
+watch(favorites, () => {
+  checkIfFavorite()
+})
+// On charge les favoris lors du montage du composant
+onMounted(() => {
+  loadFavorites()
+})
 </script>
 <template>
   <router-link :to="{ name: 'DetailTvShow', params: { id: props.id } }">
     <div
-      class="max-w-xs lg:max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-primary border-2 border-border"
+      class="max-w-xs lg:max-w-sm w-full rounded-lg overflow-hidden shadow-lg m-4 bg-primary border-2 border-border relative"
     >
       <img
         :src="imageUrl"
@@ -35,6 +62,13 @@ const imageUrl = `https://image.tmdb.org/t/p/w500${props.posterPath}`
         <p class="text-gray-500 text-sm">
           <strong>Date de Sortie:</strong> {{ firstDateAir }}
         </p>
+      </div>
+      <div class="absolute -bottom-3 -right-5">
+        <span v-if="isFavorite" class="text-6xl rotate-45">
+          <i
+            class="mr-2 pi pi-heart text-6xl text-primary -rotate-45 opacity-35"
+          ></i>
+        </span>
       </div>
     </div>
   </router-link>

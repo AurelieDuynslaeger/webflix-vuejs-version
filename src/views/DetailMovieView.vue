@@ -227,7 +227,7 @@ export default {
     >
       <div class="w-full lg:w-1/2 relative">
         <h3
-          class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Bebas"
+          class="text-3xl font-bold leading-7 text-primary mb-8 uppercase font-Bebas w-80"
         >
           {{ movie.title }}
         </h3>
@@ -343,7 +343,9 @@ export default {
             :key="similar.id"
             class="inline-block mr-2 transition-transform duration-200 hover:scale-105"
           >
-            <router-link :to="`/film/${similar.id}`" class="">
+            <router-link
+              :to="{ name: 'DetailMovie', params: { id: similar.id } }"
+            >
               <img
                 :src="
                   similar.poster_path
@@ -434,9 +436,9 @@ export default {
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm z-50"
           >
             <div
-              class="bg-white bg-opacity-90 rounded-lg shadow-lg p-6 w-full md:w-1/2 lg:w-1/3"
+              class="bg-gray-700 bg-opacity-90 rounded-lg shadow-lg p-6 w-full md:w-1/2 lg:w-1/3"
             >
-              <h2>Éditer le commentaire</h2>
+              <h2 class="text-white">Éditer le commentaire</h2>
               <form
                 @submit.prevent="submitEdit"
                 class="flex flex-col items-center w-full"
@@ -450,14 +452,14 @@ export default {
                 ></textarea>
                 <button
                   type="submit"
-                  class="w-3/4 lg:w-2/3 bg-primary text-white p-2 m-2 rounded-lg"
+                  class="w-3/4 lg:w-2/3 bg-primary text-white p-2 m-2 rounded-2xl"
                 >
                   Soumettre la modification
                 </button>
                 <button
                   type="button"
                   @click="cancelEdit"
-                  class="w-3/4 lg:w-2/3 bg-gray-500 text-white p-2 m-2 rounded-lg"
+                  class="w-3/4 lg:w-2/3 bg-gray-500 text-white p-2 m-2 rounded-2xl"
                 >
                   Annuler
                 </button>

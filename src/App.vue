@@ -39,17 +39,18 @@ onMounted(() => {
           to="/"
           :class="{
             'text-foreground font-bold': route.path === '/',
-            'hover:scale-125': route.path !== '/',
+            'hover:rotate-12': route.path !== '/',
           }"
           class="hidden lg:flex lg:items-center lg:justify-start lg:gap-1 lg:rounded-md lg:p-2"
         >
           <span class="sr-only">Webflix</span>
-          <img class="h-20 w-auto" src="./assets/webflix_logo.svg" alt="" />
+          <img class="h-14 w-auto" src="./assets/webflix_logo.svg" alt="" />
         </RouterLink>
         <RouterLink
           to="/films"
           :class="{
-            'text-foreground font-bold': route.path === '/films',
+            'text-foreground font-bold':
+              route.path === '/films' || route.path.includes('/film'),
             'hover:text-white hover:bg-gray-700': route.path !== '/films',
           }"
           class="flex items-center justify-start gap-1 rounded-md p-2"
@@ -59,7 +60,8 @@ onMounted(() => {
         <RouterLink
           to="/series"
           :class="{
-            'text-foreground font-bold': route.path === '/series',
+            'text-foreground font-bold':
+              route.path === '/series' || route.path.includes('/serie'),
             'hover:text-white hover:bg-gray-700': route.path !== '/series',
           }"
           class="flex items-center justify-start gap-1 rounded-md p-2"

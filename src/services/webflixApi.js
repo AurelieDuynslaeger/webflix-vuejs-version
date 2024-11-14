@@ -13,8 +13,10 @@ export const signup = async (username, email, password) => {
 };
 
 export const login = async (email, password) => {
+    console.log('login - Données envoyées:', { email, password });
     try {
         const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+        console.log('login - Réponse reçue:', response.data);
         return response;
     } catch (error) {
         console.error('Erreur lors de la connexion:', error.response);
@@ -43,6 +45,27 @@ export const addMovieToFavorites = async (filmId) => {
         throw error;
     }
 };
+export const addTvShowToFavorites = async (tvShowId) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await axios.post(`${API_URL}/user/tvshowfavorites/${tvShowId}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        let showfavorites = JSON.parse(localStorage.getItem('showfavorites')) || [];
+        showfavorites.push(tvShowId);
+        localStorage.setItem('favorites', JSON.stringify(showfavorites));
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Erreur lors de l\'ajout du tv show aux favoris:', error.response.data);
+        } else {
+            console.error('Erreur lors de la requête:', error.message);
+        }
+        throw error;
+    }
+};
 
 export const getFavorites = async () => {
     try {
@@ -52,6 +75,20 @@ export const getFavorites = async () => {
             }
         });
         localStorage.setItem('favorites', JSON.stringify(response.data));
+        return response.data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des favoris:', error);
+        throw error;
+    }
+};
+export const getTvFavorites = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/user/tvshowfavorites`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        localStorage.setItem('showfavorites', JSON.stringify(response.data));
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la récupération des favoris:', error);
@@ -74,6 +111,24 @@ export const removeMovieFromFavorites = async (filmId) => {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites = favorites.filter(id => id !== filmId);
     localStorage.setItem('favorites', JSON.stringify(favorites));
+    return response.json();
+};
+
+export const removeTvShowFromFavorites = async (tvShowId) => {
+    const response = await fetch(`${API_URL}/user/tvshowfavorites/${tvShowId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to remove tv show from favorites');
+    }
+    let showfavorites = JSON.parse(localStorage.getItem('showfavorites')) || [];
+    showfavorites = showfavorites.filter(id => id !== tvShowId);
+    localStorage.setItem('showfavorites', JSON.stringify(showfavorites));
     return response.json();
 };
 
@@ -173,6 +228,23 @@ export const getCurrentUser = async () => {
     } catch (error) {
         if (error.response) {
             console.error('Erreur lors de la récupération des infos user:', error.response.data);
+        } else {
+            console.error('Erreur lors de la requête:', error.message);
+        }
+        throw error;
+    }
+};
+
+export const userUpdatedPassword = async (email, updatedPassword) => {
+    console.log('userUpdatedPassword - Données envoyées:', { email, updatedPassword });
+    try {
+        const response = await axios.put(`${API_URL}/auth/reset-password`,
+            { email, updatedPassword });
+        console.log('userUpdatedPassword - Réponse reçue:', response.data);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Erreur lors de la modification du mot de passe:', error.response.data);
         } else {
             console.error('Erreur lors de la requête:', error.message);
         }

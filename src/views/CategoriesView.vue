@@ -33,15 +33,31 @@ const fetchMoviesByGenre = async genreId => {
   const moviesResponse = await getMoviesByGenre(genreIds)
   movies.value = moviesResponse
 }
+
+// Méthode pour réinitialiser les filtres
+const resetFilters = async () => {
+  selectedGenres.value.clear() // Vide la sélection de genres
+  const moviesResponse = await getPopularMovies() // Recharge les films populaires
+  movies.value = moviesResponse
+}
 </script>
 
 <template>
   <div class="mt-14 lg:mt-28">
     <h1
-      class="text-3xl lg:text-6xl font-bold mb-8 py-8 text-center text-foreground font-Bebas"
+      class="text-3xl lg:text-6xl font-bold mb-4 py-8 text-center text-foreground font-Bebas"
     >
       Catégories
     </h1>
+    <!-- Bouton de réinitialisation des filtres -->
+    <div v-if="selectedGenres.size > 0" class="text-center mb-4">
+      <button
+        @click="resetFilters"
+        class="py-2 px-4 mb-4 font-semibold text-white bg-primary rounded-3xl p-2 hover:bg-white hover:text-primary"
+      >
+        Réinitialiser les filtres
+      </button>
+    </div>
 
     <!-- Liste des genres -->
     <div class="mb-8 text-center">
